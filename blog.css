@@ -10,7 +10,7 @@
 }
 
 #logo{
-  width: 20vh;
+  width: 10vh;
 }
 
 .blog-header {
@@ -20,7 +20,7 @@
 
 .blog-header-logo {
   font-family: 'Sriracha', cursive;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .blog-header-logo:hover {
