@@ -2,7 +2,7 @@
 
 .jumbo{
   color: white;
-  background-image: url("img/salto.jpg");
+  background-image: url("img/jumbo_img.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10,7 +10,7 @@
 }
 
 #logo{
-  width: 80%;
+  width: 60%;
 }
 
 .blog-header {
@@ -20,7 +20,7 @@
 
 .blog-header-logo {
   font-family: 'Sriracha', cursive;
-  font-size: 1.5rem;
+  font-size: 161%;
 }
 
 .blog-header-logo:hover {
@@ -38,6 +38,12 @@ h1, h2, h3, h4, h5, h6 {
   .display-4 {
     font-size: 3rem;
   }
+}
+
+.fa{
+  color: #53a32b;
+  font-size: 200%;
+  margin-right: 3%;
 }
 
 .nav-scroller {
@@ -128,6 +134,14 @@ h1, h2, h3, h4, h5, h6 {
 .blog-post-meta {
   margin-bottom: 1.25rem;
   color: #999;
+}
+
+a{
+  color: #53a32b;
+}
+
+a:hover{
+  color: black;
 }
 
 /*
