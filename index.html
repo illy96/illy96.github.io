@@ -1,170 +1,70 @@
 <!doctype html>
-<html lang="it">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Allenamenti personalizzati per la corsa in montagna">
-    <meta name="author" content="Roberto Delorenzi">
-
-    <link rel="icon" type="image/png" href="favicon/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-    <title>Delo Vertical Coaching - Roberto Delorenzi</title>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <!-- Custom styles for this template -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
-    <link href="blog.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <div class="jumbotron jumbotron-fluid jumbo">
-      <div class="container">
-      </div>
-    </div>
-
-    <div class="container">
-      <header class="blog-header pb-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-3">
-            <a href="index.html">
-              <img id="logo" src="img/logo.png">
-            </a>
-          </div>
-          <div class="col-3 text-center">
-            <a class="blog-header-logo text-dark" href="index.html">Delo Vertical Coaching</a>
-          </div>
-          <div class="col-3 d-flex justify-content-end align-items-center">
-            <a class="btn btn-sm btn-outline-secondary" href="#">Accedi</a>
-          </div>
+<html>
+    <head>
+        <title>Problema di Parsons</title>
+        <link href="parsons.css" rel="stylesheet" />
+        <link href="lib/prettify.css" rel="stylesheet" />
+        <script src="lib/prettify.js"></script>
+    </head>
+    <body>
+        <img src="casetta.png" style="float: right; padding-right: 2%;">
+        <h2>Problema di Parsons: la casetta</h2>
+        <p>Trascina nella barra a destra i blocchi di codice qui sotto,
+            <strong>riordinandoli</strong> per creare un programma che
+            dia in output la grafica di una casetta come nell'immagine.<br>
+            <strong>Attenzione agli intrusi</strong>: ci sono tre blocchi che causano un errore nel programma 
+            se vengono usati.
+        </p>
+        <div id="sortableTrash" class="sortable-code"></div>
+        <div id="sortable" class="sortable-code">
         </div>
-      </header>
+        <div style="clear:both;"></div>
+        <p>
+            <a href="#" id="newInstanceLink">Ricomincia</a>
+            <a href="#" id="feedbackLink">Ricevi feedback</a>
+        </p>
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/jquery-ui.min.js"></script>
+        <script src="lib/jquery.ui.touch-punch.min.js"></script>
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/lis.js"></script>
+        <script src="parsons.js"></script>
+        <script>
+        var initial = 'from pytamaro.it import *\n' +
+                      'altezza_parete = 100\n' +
+                      'larghezza_parete = altezza_parete/1.2\n' +
+                      'tetto = triangolo(larghezza_parete, rosso) <br>parete = rettangolo(larghezza_parete, altezza_parete, giallo) <br>finestra = rettangolo(larghezza_parete/4, altezza_parete/3, ciano)\n' +
+                        'parete_con_finestra = sovrapponi(finestra, parete)\n' +
+                        'casa = sopra(tetto, parete_con_finestra)\n' +
+                        'visualizza_grafica(casa)\n' +
+                        'parete_con_finestra = sovrapponi(parete, finestra)#distractor\n' +
+                        'casa = sopra(tetto, parete)#distractor\n' +
+                        'tetto = triangolo(larghezza_parete, nero)#distractor\n'
 
-      <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-          <a class="p-2 text-muted" href="team.html">Running Team</a>
-          <!-- <a class="p-2 text-muted" href="#">Mi presento</a> -->
-          <a class="p-2 text-muted" href="pricings.html">Allenamenti personalizzati</a>
-          <!-- <a class="p-2 text-muted" href="#">Idea</a>
-          <a class="p-2 text-muted" href="#">Sconti</a> -->
-          <a class="p-2 text-muted" href="#">Contatti</a>
-          <!-- <a class="p-2 text-muted" href="#">Eventi</a> -->
-        </nav>
-      </div>
+        function displayErrors(fb) {
+            if(fb.errors.length > 0) {
+                alert(fb.errors[0]);
+            }
+        } 
 
-      <!-- <div class="card flex-md-row mb-4 box-shadow h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
-          <h3 class="mb-0">
-            <a class="text-dark" href="#">Featured post</a>
-          </h3>
-          <div class="mb-1 text-muted">Nov 12</div>
-          <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-          <a href="#">Continue reading</a>
-        </div>
-        <img class="card-img-right flex-auto d-none d-md-block" src="img/jumbo.jpg" alt="presentation image">
-      </div> -->
-
-
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8 mt-3 blog-main">
-          <div class="blog-post">
-            <h2 class="blog-post-title">Cos'è il Delo Vertical Coaching?</h2>
-            <p class="blog-post-meta">Aggiornato al 20 Febbraio 2021</p>
-
-            <p>
-              Il Delo Vertical Coaching offre <strong>piani d’allenamento personalizzati</strong> a tutte le tipologie di atleti: da coloro che non hanno mai corso in vita loro, ai professionisti che si allenano 2/3 volte al giorno.
-              <br>
-              Iscrivendosi al programma, si ottiene un pacchetto che permette di <strong>raggiungere i propri obiettivi</strong> stagionali:
-              non solo si ricevono piani di allenamento settimanali, ma anche schede e video per gli esercizi di forza, stretching, mobilità, coordinazione, scuola della corsa, funzionali e pliometrci,
-              oltre a consigli, suggerimenti, feedback.
-
-            </p>
-            <hr>
-            <p>
-              L'attività non si limita ai piani di allenamento: in questo periodo si sta creando un <strong>team di atleti d’élite locali</strong> nella disciplina della corsa in montagna e non solo.
-              <br>
-              L’idea del <strong>running team Delo Vertical Coaching</strong> è quella di puntare sulle giovani leve ed aiutarle a far conoscere questa magnifica disciplina alle persone.
-              <br>
-              Vorresti far parte del team? <a href="team.html">Per saperne di più</a>
-            </p>
-
-            <hr class="mt-3">
-            <h2>L'idea</h2>
-            <p>
-              Io e mio fratello Marco abbiamo sempre pensato che lo sport sarebbe diventato la nostra direzione lavorativa;
-              nel corso del 2020, dopo aver festeggiato un decennio di attività agonistica nel mondo dello sport d’endurance,
-              abbiamo raccolto le nostre idee su ciò che avremmo potuto realizzare nei prossimi anni, ed è emerso questo progetto.
-              <br>
-            </p>
-              <hr>
-              <p>
-              La nostra esperienza conta più di 600 gare disputate, spaziando dai 400m piani in pista, ai vertical in montagna, alle maratone stradali, ai trail di 60km, alle vie alte alpine oltre i 100km e alle corse a tappe in bicicletta.
-              <br>
-              Inoltre, abbiamo ottenuto in totale 14 medaglie mondiali giovanili (U20/U23) di Skyrunning, 2 medaglie ai Campionati Europei Assoluti di Skyrunning, due partecipazioni ai Campionati Europei e Mondiali di Corsa in montagna.
-              <br>A livello nazionale, abbiamo ottenuto diversi titoli e medaglie ai Campionati Svizzeri Giovanili di Cross e Corsa in montagna;
-              a livello regionale, sono numerosi i titoli ticinesi d’atletica nei 5000m, cross, mezza maratona, maratona.
-              <br>
-              In sintesi, abbiamo così pensato di offrire al prossimo la nostra esperienza, dando quindi il via a questo progetto, sperando che nel futuro possa crescere, ingrandirsi e diventare la nostra professione a tempo pieno.
-            </p>
-          </div><!-- /.blog-post -->
-        </div><!-- /.blog-main -->
-
-        <aside class="col-md-4 mt-3 blog-sidebar">
-          <div class="p-3 mb-3 bg-light rounded">
-            <h4 class="font-italic">Roberto Delorenzi</h4>
-            <p class="mb-0">
-              Classe 1997, studente di Sport e Prevenzione della Salute all’Università di Basilea (quarto semestre).
-              <br>
-              All’età di 13 anni inizia a praticare gli sport d’endurance: corsa in montagna, atletica, ciclismo, scialpinismo e sci nordico.
-              <br>
-              Fa parte degli atleti professionisti del Team Vibram dal 2015.
-              <br>
-              Il suo punto forte è il Vertical running.
-            </p>
-          </div>
-
-          <div class="p-3">
-            <a href="https://www.instagram.com/delo_vertical_coaching/" target="_blank"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-            <a href="https://www.linkedin.com/in/roberto-delorenzi-91b766207" target="_blank"> <i class="fa fa-linkedin" aria-hidden="true"></i></a>
-          </div>
-        </aside><!-- /.blog-sidebar -->
-
-      </div><!-- /.row -->
-
-    </main><!-- /.container -->
-</div>
-
-<footer class="blog-footer">
-  <p>Sito in elaborazione! Per informazioni, <a href="mailto:deloverticalcoaching@gmail.com">scrivici una mail</a>.</p>
-  <p>
-    <a href="#">Torna all'inizio</a>
-  </p>
-</footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/vendor/holder.min.js"></script>
-    <script>
-      Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-      });
-    </script>
-  </body>
+        $(document).ready(function(){
+            var parson = new ParsonsWidget({
+                'sortableId': 'sortable',
+                'trashId': 'sortableTrash',
+                'max_wrong_lines': 1,
+                'feedback_cb' : displayErrors
+            });
+            parson.init(initial);
+            parson.shuffleLines();
+            $("#newInstanceLink").click(function(event){
+                event.preventDefault();
+                parson.shuffleLines();
+            });
+            $("#feedbackLink").click(function(event){
+                event.preventDefault();
+                parson.getFeedback();
+            });
+        });
+        </script>
+    </body>
 </html>
