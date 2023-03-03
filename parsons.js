@@ -46,15 +46,15 @@
        order: function() {
          return "Uno o più blocchi sono errati, o nell'ordine sbagliato. Prova a correggere l'errore";},
        lines_missing: function() {
-         return "Your program has too few code fragments.";},
+         return "I blocchi di codice inseriti sono troppo pochi.";},
        lines_too_many: function() {
-         return "Your program has too many code fragments.";},
+         return "I blocchi di codice inseriti sono troppi.";},
        no_matching: function(lineNro) {
-         return "Based on language syntax, the highlighted fragment (" + lineNro + ") is not correctly indented."; },
+         return "Il blocco evidenziato non è indentato correttamente. (" + lineNro + ") non è indentato correttamente."; },
        no_matching_open: function(lineNro, block) {
-         return "The " + block + " ended on line " + lineNro + " never started."; },
+         return block + " terminato in linea " + lineNro + " non è mai iniziato."; },
        no_matching_close: function(lineNro, block) {
-         return "Block " + block + " defined on line " + lineNro + " not ended properly";
+         return "Il blocco " + block + " definito in linea " + lineNro + " non è terminato correttamente";
        },
        block_close_mismatch: function(closeLine, closeBlock, openLine, inBlock) {
          return "Cannot end block " + closeBlock + " on line " + closeLine + " when still inside block " + inBlock + " started on line " + openLine;
