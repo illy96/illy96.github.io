@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <meta http-equiv='cache-control' content='no-cache'> 
+    <meta http-equiv='expires' content='0'> 
+    <meta http-equiv='pragma' content='no-cache'>
+    <head>
+        <title>Problema di Parsons</title>
+        <link href="parsons.css" rel="stylesheet" />
+        <link href="lib/prettify.css" rel="stylesheet" />
+        <script src="lib/prettify.js"></script>
+    </head>
+    <body>
+        <img src="casetta.png" style="float: right; padding-right: 2%;">
+        <h2>Problema di Parsons: la casetta</h2>
+        <p>Trascina nella barra a destra i blocchi di codice qui sotto,
+            <strong>riordinandoli</strong> per creare un programma che
+            dia in output la grafica di una casetta come nell'immagine.<br>
+            <strong>Attenzione agli intrusi</strong>: ci sono tre blocchi che causano un errore nel programma 
+            se vengono usati.
+        </p>
+        <div id="sortableTrash" class="sortable-code"></div>
+        <div id="sortable" class="sortable-code">
+        </div>
+        <div style="clear:both;"></div>
+        <p>
+            <a href="#" id="newInstanceLink">Ricomincia</a>
+            <a href="#" id="feedbackLink">Ricevi feedback</a>
+        </p>
+        <script src="lib/jquery.min.js"></script>
+        <script src="lib/jquery-ui.min.js"></script>
+        <script src="lib/jquery.ui.touch-punch.min.js"></script>
+        <script src="lib/underscore-min.js"></script>
+        <script src="lib/lis.js"></script>
+        <script src="parsons.js"></script>
+        <script>
+        var initial = 'from pytamaro.it import *\n' +
+                      'altezza_parete = 100\n' +
+                      'larghezza_parete = altezza_parete/1.2\n' +
+                      'tetto = triangolo(larghezza_parete, rosso) <br>parete = rettangolo(larghezza_parete, altezza_parete, giallo) <br>finestra = rettangolo(larghezza_parete/4, altezza_parete/3, ciano)\n' +
+                        'parete_con_finestra = sovrapponi(finestra, parete)\n' +
+                        'casa = sopra(tetto, parete_con_finestra)\n' +
+                        'visualizza_grafica(casa)\n' +
+                        'parete_con_finestra = sovrapponi(parete, finestra)#distractor\n' +
+                        'casa = sopra(tetto, parete)#distractor\n' +
+                        'tetto = triangolo(larghezza_parete, nero)#distractor\n'
+
+        function displayErrors(fb) {
+            if(fb.errors.length > 0) {
+                alert(fb.errors[0]);
+            }
+        } 
+
+        $(document).ready(function(){
+            var parson = new ParsonsWidget({
+                'sortableId': 'sortable',
+                'trashId': 'sortableTrash',
+                'max_wrong_lines': 1,
+                'feedback_cb' : displayErrors
+            });
+            parson.init(initial);
+            parson.shuffleLines();
+            $("#newInstanceLink").click(function(event){
+                event.preventDefault();
+                parson.shuffleLines();
+            });
+            $("#feedbackLink").click(function(event){
+                event.preventDefault();
+                parson.getFeedback();
+            });
+        });
+        </script>
+    </body>
+</html>
