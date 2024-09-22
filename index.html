@@ -1276,6 +1276,7 @@ function changeSpeed()
 <tr>
 <td valign="center">
 C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
+<div hidden>
 <input type="checkbox" name="zero" onclick="document.datapath.zero.checked = !document.datapath.zero.checked">
 &nbsp;&nbsp; Zero<br>
 <input type="checkbox" name="negative" onclick="document.datapath.negative.checked = !document.datapath.negative.checked">
@@ -1284,6 +1285,7 @@ C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
 &nbsp;&nbsp; Unsigned Overflow<br>
 <input type="checkbox" name="soverflow" onclick="document.datapath.soverflow.checked = !document.datapath.soverflow.checked">
 &nbsp;&nbsp; Signed Overflow
+</div>
 </td>
 
 <td align="center" valign="center">
