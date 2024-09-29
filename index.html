@@ -402,8 +402,8 @@ function loadABBusRegMid()
 
 function setArrow1Red()
 {
-  document.AArrow1.src = "shortDownArrowRed.gif";
-  document.BArrow1.src = "shortDownArrowRed.gif";
+  document.AArrow1.src = "longLineRed.png";
+  document.BArrow1.src = "longLineRed.png";
 
   if(WITH_MEMORY)
     top.memory.clearSelectedAddress();
@@ -411,8 +411,8 @@ function setArrow1Red()
 
 function setArrow1Blue()
 {
-  document.AArrow1.src = "shortDownArrowBlue.gif";
-  document.BArrow1.src = "shortDownArrowBlue.gif";
+  document.AArrow1.src = "longLineBlue.png";
+  document.BArrow1.src = "longLineBlue.png";
 
   if(WITH_MEMORY)
     top.memory.setSelectedAddress();
@@ -1117,7 +1117,7 @@ function changeSpeed()
 </td></tr>
 
 <tr>
-<td rowspan="2" width="24%" align="center" valign="center">
+<td rowspan="2" width="24%" align="right" valign="top">
 <script>
   if (WITH_MEMORY)
     document.write(
@@ -1134,61 +1134,32 @@ function changeSpeed()
 </td>
 
 <td rowspan="2" align="left" valign="top">
-<table border="0">
-<tbody><tr>
-<td align="left">
-<input type="button" name="runButton" value="Esegui" onclick="executeCycle()">
-</td>
-<td align="left">
-<input type="button" name="pauseButton" value="Pausa" onclick="pauseCycle()">
-</td></tr>
-<tr><td align="right">
-<b>Velocità<br>animazione:</b>
-</td>
-<td align="left">
-<select name="speed" onchange="changeSpeed()">
-    <option value="41">Lentissima
-    </option><option value="21">Lenta
-    </option><option value="13" selected="true">Media
-    </option><option value="5">Veloce
-    </option><option value="1">Velocissima
-  </option></select>
-</td></tr>
-<tr><td align="right">
-<b>Base<br>numerica:</b>
-</td>
-<td align="left">
-<select name="numberBase" onchange="changeBase()">
-    <option value="-10">+-10
-    </option><option value="10">10
-    </option><option value="2">2
-  </option></select>
-</td>
-</tr>
-</tbody></table>
 
+<div></div>
 </td>
 
 <td width="24%" align="center" valign="center">
-<img name="AArrow1" src="./shortDownArrowBlue.gif">
+<img name="AArrow1" src="./longLineBlue.png">
 </td>
 
 <td width="24%" align="center" valign="center">
-<img name="BArrow1" src="./shortDownArrowBlue.gif">
+<img name="BArrow1" src="./longLineBlue.png">
 </td>
 </tr>
 
 <tr>
-<td>
-<table bgcolor="white" border="2" cellpadding="1" cellspacing="1">
+<td align="center">
+<table bgcolor="white" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+  </tbody>
 <tbody><tr><td align="center"><font color="blue"><b>Bus A</b></font></td></tr>
-<tr><td><input type="text" name="ABus" size="16" maxlength="16" onfocus="blur();">
+<tr><td align="center"><input type="text" name="ABus" size="3" maxlength="3" onfocus="blur();">
 </td></tr></tbody></table>
 </td>
-<td>
-<table bgcolor="white" border="2" cellpadding="1" cellspacing="1">
+<td align="center">
+<table bgcolor="white" border="0" cellpadding="0" cellspacing="0">
 <tbody><tr><td align="center"><font color="blue"><b>Bus B</b></font></td></tr>
-<tr><td><input type="text" name="BBus" size="16" maxlength="16" onfocus="blur();">
+<tr><td align="center"><input type="text" name="BBus" size="3" maxlength="3" onfocus="blur();">
 </td></tr></tbody></table>
 </td>
 </tr>
@@ -1196,39 +1167,43 @@ function changeSpeed()
 <tr>
 <td rowspan="2" colspan="2" align="left" valign="top">
 
-<table width="100%">
-<tbody><tr><td colspan="3">
-<table width="75%" bgcolor="white" border="2" cellpadding="1" cellspacing="1">
-<tbody><tr><td align="center"><font color="blue"><b>Bus C</b></font></td></tr>
-<tr><td align="center"><input type="text" name="CBus" size="16" maxlength="16" onfocus="blur();">
+<table width="100%" border="0" >
+<tbody><tr><td>
+<table width="75%" bgcolor="white" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td colspan="3" align="center"><font color="blue"><b>Bus C</b></font></td></tr>
+<tr><td align="center"><input type="text" name="CBus" size="3" maxlength="3" onfocus="blur();">
 </td></tr></tbody></table>
 </td></tr>
 <tr>
-<td align="center" valign="center">
 <script>
   if (WITH_MEMORY)
     document.write(
+        '<td align="center" valign="center">' +
         '<a href="javascript:toggleSwitch(\'toMemory\');">' +
-        '<img border=0 name=toMemory src="downArrowOpenBlue.gif"></a>');
+        '<img border=0 name=toMemory src="downArrowOpenBlue.gif"></a>' +
+        '</td>');
 </script>
-</td>
-<td align="center" valign="center">
 <script>
   if (WITH_MEMORY)
     document.write(
+      '<td align="center" valign="center">' +
         '<a href="javascript:toggleSwitch(\'fromMemory\');">' +
-        '<img border=0 name=fromMemory src="upArrowOpenBlue.gif"></a>');
+        '<img border=0 name=fromMemory src="upArrowOpenBlue.gif"></a>' +
+        '</td>');
 </script>
-</td>
-<td align="right" valign="top">
 <script>
   if (WITH_MEMORY)
     document.write(
+      '<td align="right" valign="top">' +
       '<a href="javascript:toggleSwitch(\'bend\');">' +
-                '<img border=0 name=bend src="bendClosedBlue.gif"></a>');
+                '<img border=0 name=bend src="bendClosedBlue.gif"></a>' +
+      '</td>');
   else
     document.write(
-      '<img name=bend src="bendBlue.gif">');
+      '<td align="center" valign="top">' +
+      '<img name=bend src="bendBlue.gif">' +
+      '</td>'
+      );
 </script>
 </td>
 </tr>
@@ -1274,28 +1249,65 @@ function changeSpeed()
 </td></tr>
 
 <tr>
-<td valign="center">
-C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
-<div hidden>
-<input type="checkbox" name="zero" onclick="document.datapath.zero.checked = !document.datapath.zero.checked">
-&nbsp;&nbsp; Zero<br>
-<input type="checkbox" name="negative" onclick="document.datapath.negative.checked = !document.datapath.negative.checked">
-&nbsp;&nbsp; Negative<br>
-<input type="checkbox" name="uoverflow" onclick="document.datapath.uoverflow.checked = !document.datapath.uoverflow.checked">
-&nbsp;&nbsp; Unsigned Overflow<br>
-<input type="checkbox" name="soverflow" onclick="document.datapath.soverflow.checked = !document.datapath.soverflow.checked">
-&nbsp;&nbsp; Signed Overflow
-</div>
-</td>
-
-<td align="center" valign="center">
+<td colspan="2" align="center" valign="center">
 <font color="green">Operazione dell'ALU</font><br><br>
 <a href="javascript:turnKnob(&#39;salu&#39;,&#39;ALU&#39;,1);">
 <img border="0" name="ALU" src="./saluDial0.gif"></a>
-</td></tr>
-</tbody></table>
 </td>
 </tr>
+<tr>
+  <td colspan="2" align="center" valign="center">
+    C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
+    <div hidden>
+    <input type="checkbox" name="zero" onclick="document.datapath.zero.checked = !document.datapath.zero.checked">
+    &nbsp;&nbsp; Zero<br>
+    <input type="checkbox" name="negative" onclick="document.datapath.negative.checked = !document.datapath.negative.checked">
+    &nbsp;&nbsp; Negative<br>
+    <input type="checkbox" name="uoverflow" onclick="document.datapath.uoverflow.checked = !document.datapath.uoverflow.checked">
+    &nbsp;&nbsp; Unsigned Overflow<br>
+    <input type="checkbox" name="soverflow" onclick="document.datapath.soverflow.checked = !document.datapath.soverflow.checked">
+    &nbsp;&nbsp; Signed Overflow
+    </div>
+    </td>
+</tr>
+</tbody></table>
+
+<br>
+<br>
+<br>
+<br>
+<table border="0">
+  <tbody><tr>
+  <td align="left">
+  <input type="button" name="runButton" value="Esegui" onclick="executeCycle()">
+  </td>
+  <td align="left">
+  <input type="button" name="pauseButton" value="Pausa" onclick="pauseCycle()">
+  </td></tr>
+  <tr><td align="right">
+  <b>Velocità<br>animazione:</b>
+  </td>
+  <td align="left">
+  <select name="speed" onchange="changeSpeed()">
+      <option value="41">Lentissima
+      </option><option value="21">Lenta
+      </option><option value="13" selected="true">Media
+      </option><option value="5">Veloce
+      </option><option value="1">Velocissima
+    </option></select>
+  </td></tr>
+  <tr><td align="right">
+  <b>Base<br>numerica:</b>
+  </td>
+  <td align="left">
+  <select name="numberBase" onchange="changeBase()">
+      <option value="-10">+-10
+      </option><option value="10">10
+      </option><option value="2">2
+    </option></select>
+  </td>
+  </tr>
+  </tbody></table>
 
 </tbody></table> 
 <!-- End of the full page table -->
