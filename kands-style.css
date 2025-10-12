@@ -1,0 +1,167 @@
+/* ==============================================================
+   kands‑style‑mask‑tables.css  (revised)
+   – Keeps the original table‑based layout 100 % functional
+   – Visually hides the tables, centres everything,
+   – Moves the “bend” arrow next to Bus C closer to the ALU.
+   ============================================================== */
+
+/* --------------------------------------------------------------
+   1️⃣ Global reset & typography
+   -------------------------------------------------------------- */
+html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    color: #222;
+    background: #fafafa;               /* light page background */
+}
+body {
+    margin: 0;
+    padding: 1rem;
+    text-align: center;                /* centre everything by default */
+}
+
+/* --------------------------------------------------------------
+   2️⃣ Hide all visual table cues (borders, cell shading, spacing)
+   -------------------------------------------------------------- */
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+/* --------------------------------------------------------------
+   3️⃣ Keep the outermost layout centred
+   -------------------------------------------------------------- */
+form[name="datapath"] > center {
+    display: inline-block;            /* shrink‑wrap the content */
+    max-width: 100%;
+}
+
+/* --------------------------------------------------------------
+   4️⃣ Main “card” that holds the whole simulator
+   -------------------------------------------------------------- */
+table[border="2"][bgcolor="white"] {
+    background: #fff;
+    border: 2px solid #cce0ff;        /* soft blue border – Lumo palette */
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    margin: 1rem auto;                /* keep it centred */
+    padding: .8rem;
+}
+
+/* --------------------------------------------------------------
+   5️⃣ Inner register‑bank (the green table)
+   -------------------------------------------------------------- */
+table[bgcolor="green"] {
+    background: #e6f0ff;              /* light blue‑green */
+    border-radius: 4px;
+    padding: .6rem;
+}
+
+/* --------------------------------------------------------------
+   6️⃣ Force centre alignment for every cell that holds a
+       visible widget (inputs, images, selects, etc.).
+   -------------------------------------------------------------- */
+td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* --------------------------------------------------------------
+   7️⃣ Form controls – inputs, selects, buttons
+   -------------------------------------------------------------- */
+input[type="text"],
+select,
+input[type="button"],
+input[type="submit"] {
+    font-size: .94rem;
+    padding: .45rem .85rem;
+    margin: .25rem;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #e6f0ff;
+    color: #003366;
+    transition: background .2s, border-color .2s;
+}
+input[type="text"] {
+    width: 8rem;                      /* fits 16‑digit hex values */
+    text-align: center;
+}
+input[type="text"]:focus,
+select:focus,
+button:focus {
+    outline: 2px solid #66aaff;
+    outline-offset: 2px;
+}
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:hover,
+select:hover {
+    background: #cce0ff;
+    border-color: #6699cc;
+}
+
+/* --------------------------------------------------------------
+   8️⃣ Images that act as arrows / wires
+   -------------------------------------------------------------- */
+img {
+    vertical-align: middle;
+}
+img[name^="AArrow"],
+img[name^="BArrow"] {
+    max-width: 100%;
+}
+
+/* --------------------------------------------------------------
+   9️⃣ Headings & bold text
+   -------------------------------------------------------------- */
+b, h1, h2, h3, h4, h5, h6 {
+    color: #003366;
+}
+b {
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------
+   🔟 Run / Pause button block – keep left‑aligned but inside a
+      centred container
+   -------------------------------------------------------------- */
+table[border="0"] {
+    margin: 0 auto;                   /* centre the whole button table */
+}
+table[border="0"] td {
+    text-align: left;                 /* keep the individual buttons left‑aligned */
+}
+
+/* --------------------------------------------------------------
+   1️⃣1️⃣ **Adjust the blue “bend” arrow** (the one next to Bus C).
+       It lives in a `<img name="bend">`. We give it a small right
+       margin so it hugs the ALU block instead of floating far left.
+   -------------------------------------------------------------- */
+img[name="bend"] {
+    margin-right: -0.8rem;            /* pull it toward the ALU */
+}
+
+/* --------------------------------------------------------------
+   1️⃣2️⃣ Responsive tweaks – keep everything usable on phones/tablets
+   -------------------------------------------------------------- */
+@media (max-width: 600px) {
+    body { padding: .5rem; }
+    input[type="text"] { width: 6rem; }
+    table[border="2"][bgcolor="white"] { margin: .5rem; }
+}
+
+font{
+    color: black;
+}
+

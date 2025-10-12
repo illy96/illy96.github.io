@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>K&S Computer – Datapath (modern UI)</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="baseconv.js"></script>   <!-- keep your original conversion helper -->
+    <script defer src="app.js"></script>   <!-- our main logic -->
+</head>
+<body>
+    <header>
+        <h1>Percorso dati – K&S Computer</h1>
+    </header>
+
+    <!-- ============================================================
+         CONTROL PANEL (speed, base, run / pause)
+         ============================================================ -->
+    <section class="control-panel">
+        <button id="runBtn">Esegui</button>
+        <button id="pauseBtn">Pausa</button>
+
+        <label>
+            Velocità animazione:
+            <select id="speedSel">
+                <option value="41">Lentissima</option>
+                <option value="21">Lenta</option>
+                <option value="13" selected>Media</option>
+                <option value="5">Veloce</option>
+                <option value="1">Velocissima</option>
+            </select>
+        </label>
+
+        <label>
+            Base numerica:
+            <select id="baseSel">
+                <option value="-10">±10</option>
+                <option value="10">10</option>
+                <option value="2">2</option>
+            </select>
+        </label>
+    </section>
+
+    <!-- ============================================================
+         MAIN SIMULATOR GRID
+         ============================================================ -->
+    <main class="sim-grid">
+
+        <!-- ────── LEFT COLUMN – REGISTERS & KNOBS ────── -->
+        <aside class="left-col">
+
+            <!-- C‑bus address knob -->
+            <div class="knob-group">
+                <label class="knob-label">Indirizzo bus C</label>
+                <a href="javascript:turnKnob('sreg','CAddr',1);">
+                    <img id="CAddr" src="./sregDial0.gif" alt="C‑addr knob">
+                </a>
+            </div>
+
+            <!-- Register bank -->
+            <fieldset class="register-bank">
+                <legend>I registri</legend>
+                <div class="reg-row"><label>R0:</label><input id="R0" type="text" maxlength="16"></div>
+                <div class="reg-row"><label>R1:</label><input id="R1" type="text" maxlength="16"></div>
+                <div class="reg-row"><label>R2:</label><input id="R2" type="text" maxlength="16"></div>
+                <div class="reg-row"><label>R3:</label><input id="R3" type="text" maxlength="16"></div>
+            </fieldset>
+
+            <!-- A‑bus address knob -->
+            <div class="knob-group">
+                <label class="knob-label">Indirizzo Bus A</label>
+                <a href="javascript:turnKnob('sreg','AAddr',1);">
+                    <img id="AAddr" src="./sregDial0.gif" alt="A‑addr knob">
+                </a>
+            </div>
+
+            <!-- B‑bus address knob -->
+            <div class="knob-group">
+                <label class="knob-label">Indirizzo Bus B</label>
+                <a href="javascript:turnKnob('sreg','BAddr',1);">
+                    <img id="BAddr" src="./sregDial0.gif" alt="B‑addr knob">
+                </a>
+            </div>
+        </aside>
+
+        <!-- ────── CENTER COLUMN – BUSES & ARROWS ────── -->
+        <section class="center-col">
+
+            <!-- Bus A -->
+            <div class="bus-row">
+                <svg class="bus-arrow" viewBox="0 0 120 20">
+                    <line x1="0" y1="10" x2="120" y2="10" stroke="#0066cc" stroke-width="2"/>
+                </svg>
+                <label class="bus-label">Bus A</label>
+                <input id="ABus" type="text" size="3" maxlength="3" readonly>
+            </div>
+
+            <!-- Bus B -->
+            <div class="bus-row">
+                <svg class="bus-arrow" viewBox="0 0 120 20">
+                    <line x1="0" y1="10" x2="120" y2="10" stroke="#0066cc" stroke-width="2"/>
+                </svg>
+                <label class="bus-label">Bus B</label>
+                <input id="BBus" type="text" size="3" maxlength="3" readonly>
+            </div>
+
+            <!-- **Single SVG arrow that connects the ALU to Bus C** -->
+            <div class="bus-c-wrapper">
+                <svg class="bus-c-arrow" viewBox="0 0 300 80">
+                    <!-- vertical segment (coming from the C‑addr knob) -->
+                    <line x1="30" y1="0" x2="30" y2="40" stroke="#0066cc" stroke-width="2"/>
+                    <!-- horizontal segment (going to the ALU) -->
+                    <line x1="30" y1="40" x2="260" y2="40" stroke="#0066cc" stroke-width="2"/>
+                    <!-- small arrow head pointing to the ALU -->
+                    <polygon points="260,38 260,42 270,40" fill="#0066cc"/>
+                </svg>
+                <label class="bus-c-label">Bus C</label>
+                <input id="CBus" type="text" size="3" maxlength="3" readonly>
+            </div>
+        </section>
+
+        <!-- ────── RIGHT COLUMN – ALU & FLAGS ────── -->
+        <aside class="right-col">
+
+            <fieldset class="alu-block">
+                <legend>Unità Logico‑Aritmetica (ALU)</legend>
+
+                <div class="alu-row"><label>A:</label><input id="ALUA" type="text" size="16" maxlength="16" readonly></div>
+                <div class="alu-row"><label>B:</label><input id="ALUB" type="text" size="16" maxlength="16" readonly></div>
+
+                <div class="alu-op">
+                    <label class="knob-label">Operazione dell'ALU</label>
+                    <a href="javascript:turnKnob('salu','ALU',1);">
+                        <img id="ALU" src="./saluDial0.gif" alt="ALU operation knob">
+                    </a>
+                </div>
+
+                <div class="alu-row"><label>C:</label><input id="ALUC" type="text" size="16" maxlength="16" readonly></div>
+
+                <!-- Flags (kept hidden but still functional) -->
+                <div class="flags hidden">
+                    <input type="checkbox" id="zeroFlag"><label for="zeroFlag">Zero</label>
+                    <input type="checkbox" id="negFlag"><label for="negFlag">Negative</label>
+                    <input type="checkbox" id="uovFlag"><label for="uovFlag">Unsigned Overflow</label>
+                    <input type="checkbox" id="sovFlag"><label for="sovFlag">Signed Overflow</label>
+                </div>
+            </fieldset>
+        </aside>
+    </main>
+
+    <footer>
+        <small>© 2025 Proton – Lumo demo.  All rights reserved.</small>
+    </footer>
+</body>
+</html>

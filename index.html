@@ -1,7 +1,8 @@
 
 <!-- saved from url=(0074)https://users.dickinson.edu/%7Ebraught/kands/KandS2/datapath/datapath.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>K&amp;S Computer - Percorso Dati 1</title>
+  <link rel="stylesheet" href="kands-style.css">
+<title>Simulatore del percorso dati</title>
 
 <script src="./baseconv.js"></script>
 
@@ -1051,271 +1052,198 @@ function changeSpeed()
 <b>Percorso dati</b>
 <hr>
 
-<!-- Table to layout entire page... -->
+<!-- ====================== 1️⃣  MAIN PAGE TABLE ====================== -->
 <table cellpadding="0" cellspacing="0">
-<tbody><tr><td colspan="4">
-<!-- Table for Entire Register bank... -->
-<table width="100%" bgcolor="white" border="2" cellpadding="1" cellspacing="1">
+<tbody>
+<tr><td colspan="4">
 
-<tbody><tr>
-<td colspan="4">
-<center><font color="blue"><b>I registri</b></font></center>
-</td>
+<!-- ====================== 2️⃣  REGISTER BANK (GREEN) ====================== -->
+<table width="100%" bgcolor="white" border="2" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<td colspan="4"><center><font color="blue"><b>I registri</b></font></center></td>
 </tr>
 
 <tr>
-
-<!-- Table containing the C Address Select Dial... -->
+<!-- C‑address dial -->
 <td width="24%" align="center" valign="center">
-
 <font color="green">Indirizzo bus C</font><br><br>
-<a href="javascript:turnKnob(&#39;sreg&#39;, &#39;CAddr&#39;,1);">
+<a href="javascript:turnKnob('sreg','CAddr',1);">
 <img border="0" name="CAddr" src="./sregDial0.gif"></a>
-
 </td>
-<!-- End of C address select dial table ... -->
 
-<!-- Table containing the registers... -->
+<!-- REGISTER INPUTS (R0‑R3) -->
 <td width="28%" bgcolor="green" align="center">
 <table border="0" cellspacing="0" cellpadding="0">
-
-<tbody><tr><td>
-<font color="white">R0:</font><input type="text" name="R0" size="16" maxlength="16" tabindex="1" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(0);">
-</td></tr>
-<tr><td>
-<font color="white">R1:</font><input type="text" name="R1" size="16" maxlength="16" tabindex="2" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(1);">
-</td></tr>
-<tr><td><font color="white">R2:</font><input type="text" name="R2" size="16" maxlength="16" tabindex="3" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(2);">
-</td></tr>
-<tr><td><font color="white">R3:</font><input type="text" name="R3" size="16" maxlength="16" tabindex="4" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(3);">
-</td></tr>
+<tbody>
+<tr><td><font color="white">R0:</font><input type="text" name="R0" size="16" maxlength="16" tabindex="1" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(0);"></td></tr>
+<tr><td><font color="white">R1:</font><input type="text" name="R1" size="16" maxlength="16" tabindex="2" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(1);"></td></tr>
+<tr><td><font color="white">R2:</font><input type="text" name="R2" size="16" maxlength="16" tabindex="3" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(2);"></td></tr>
+<tr><td><font color="white">R3:</font><input type="text" name="R3" size="16" maxlength="16" tabindex="4" onfocus="if(!CHANGE_ENABLED) blur();" onchange="registerChange(3);"></td></tr>
 </tbody></table>
 </td>
-<!-- End of registers table... -->
 
-<!-- Table containing the A address select dial... -->
+<!-- A‑address dial -->
 <td width="24%" align="center" valign="center">
-
 <font color="green">Indirizzo Bus A</font><br><br>
-<a href="javascript:turnKnob(&#39;sreg&#39;, &#39;AAddr&#39;,1)">
+<a href="javascript:turnKnob('sreg','AAddr',1)">
 <img border="0" name="AAddr" src="./sregDial0.gif"></a>
-
 </td>
-<!-- End of A address select dial table... -->
 
-<!-- Table containing the B address select dial... -->
+<!-- B‑address dial -->
 <td width="24%" align="center" valign="center">
-
 <font color="green">Indirizzo Bus B</font><br><br>
-<a href="javascript:turnKnob(&#39;sreg&#39;, &#39;BAddr&#39;,1);">
+<a href="javascript:turnKnob('sreg','BAddr',1);">
 <img border="0" name="BAddr" src="./sregDial0.gif"></a>
-
 </td>
-<!-- End of b address select dial table... -->
 </tr>
 </tbody></table>
 </td></tr>
 
+<!-- ====================== 3️⃣  ARROWS & BUSES ====================== -->
 <tr>
 <td rowspan="2" width="24%" align="right" valign="top">
 <script>
   if (WITH_MEMORY)
-    document.write(
-      '<a href="javascript:toggleSwitch(\'CArrow\');">' +
-                '<img border=0 name=CArrow src="upArrowClosedBlue.gif"></a>');
+    document.write('<a href="javascript:toggleSwitch(\'CArrow\');"><img border=0 name=CArrow src="upArrowClosedBlue.gif"></a>');
   else
-    document.write(
-      '<img border=0 name=CArrow src="upArrowBlue.gif">');
+    document.write('<img border=0 name=CArrow src="upArrowBlue.gif">');
 </script>
-<!--
-<a href="javascript:toggleSwitch('CArrow')">
-<img border=0 name=CArrow src="upArrowClosedBlue.gif"></a>
--->
 </td>
 
-<td rowspan="2" align="left" valign="top">
+<td rowspan="2" align="left" valign="top"><div></div></td>
 
-<div></div>
-</td>
-
-<td width="24%" align="center" valign="center">
-<img name="AArrow1" src="./longLineBlue.png">
-</td>
-
-<td width="24%" align="center" valign="center">
-<img name="BArrow1" src="./longLineBlue.png">
-</td>
+<td width="24%" align="center" valign="center"><img name="AArrow1" src="./longLineBlue.png"></td>
+<td width="24%" align="center" valign="center"><img name="BArrow1" src="./longLineBlue.png"></td>
 </tr>
 
 <tr>
 <td align="center">
 <table bgcolor="white" border="0" cellpadding="0" cellspacing="0">
-  <tbody>
-  </tbody>
-<tbody><tr><td align="center"><font color="blue"><b>Bus A</b></font></td></tr>
-<tr><td align="center"><input type="text" name="ABus" size="3" maxlength="3" onfocus="blur();">
-</td></tr></tbody></table>
+<tr><td align="center"><font color="blue"><b>Bus A</b></font></td></tr>
+<tr><td align="center"><input type="text" name="ABus" size="3" maxlength="3" onfocus="blur();"></td></tr>
+</table>
 </td>
 <td align="center">
 <table bgcolor="white" border="0" cellpadding="0" cellspacing="0">
-<tbody><tr><td align="center"><font color="blue"><b>Bus B</b></font></td></tr>
-<tr><td align="center"><input type="text" name="BBus" size="3" maxlength="3" onfocus="blur();">
-</td></tr></tbody></table>
+<tr><td align="center"><font color="blue"><b>Bus B</b></font></td></tr>
+<tr><td align="center"><input type="text" name="BBus" size="3" maxlength="3" onfocus="blur();"></td></tr>
+</table>
 </td>
 </tr>
 
+<!-- ====================== 4️⃣  BUS C & MEMORY SECTION ====================== -->
 <tr>
 <td rowspan="2" colspan="2" align="left" valign="top">
-
-<table width="100%" border="0" >
-<tbody><tr><td>
-<table width="75%" bgcolor="white" border="0" cellpadding="0" cellspacing="0">
-<tbody><tr><td colspan="3" align="center"><font color="blue"><b>Bus C</b></font></td></tr>
-<tr><td align="center"><input type="text" name="CBus" size="3" maxlength="3" onfocus="blur();">
-</td></tr></tbody></table>
-</td></tr>
+<table width="100%" border="0">
+<tbody>
 <tr>
-<script>
-  if (WITH_MEMORY)
-    document.write(
-        '<td align="center" valign="center">' +
-        '<a href="javascript:toggleSwitch(\'toMemory\');">' +
-        '<img border=0 name=toMemory src="downArrowOpenBlue.gif"></a>' +
-        '</td>');
-</script>
-<script>
-  if (WITH_MEMORY)
-    document.write(
-      '<td align="center" valign="center">' +
-        '<a href="javascript:toggleSwitch(\'fromMemory\');">' +
-        '<img border=0 name=fromMemory src="upArrowOpenBlue.gif"></a>' +
-        '</td>');
-</script>
-<script>
-  if (WITH_MEMORY)
-    document.write(
-      '<td align="right" valign="top">' +
-      '<a href="javascript:toggleSwitch(\'bend\');">' +
-                '<img border=0 name=bend src="bendClosedBlue.gif"></a>' +
-      '</td>');
-  else
-    document.write(
-      '<td align="center" valign="top">' +
-      '<img name=bend src="bendBlue.gif">' +
-      '</td>'
-      );
-</script>
+<td>
+<table width="75%" bgcolor="white" border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="3" align="center"><font color="blue"><b>Bus C</b></font></td></tr>
+<tr><td align="center"><input type="text" name="CBus" size="3" maxlength="3" onfocus="blur();"></td></tr>
+</table>
 </td>
+
+<script>
+  if (WITH_MEMORY) {
+    document.write('<td align="center" valign="center"><a href="javascript:toggleSwitch(\'toMemory\');"><img border=0 name=toMemory src="downArrowOpenBlue.gif"></a></td>');
+    document.write('<td align="center" valign="center"><a href="javascript:toggleSwitch(\'fromMemory\');"><img border=0 name=fromMemory src="upArrowOpenBlue.gif"></a></td>');
+    document.write('<td align="right" valign="top"><!-- placeholder – bend arrow will be moved later --></td>');
+  } else {
+    document.write('<td align="center" valign="top"><img name=bend src="bendBlue.gif"></td>');
+  }
+</script>
 </tr>
+
 <tr>
 <td colspan="3">
 <script>
-  if (WITH_MEMORY)
-  {
-    document.write(
-      '<table bgcolor=white border=2 cellpadding=1 cellspacing=1>' +
-      '<tr><td align=left valign=top>' +
-      '<input type=text name=MMBus size=16 maxlength=16 onfocus="blur();"></td></tr>' +
-      '<tr><td align=center><font color=blue><b>Main Memory Bus</b></font>' +
-      '</td></tr></table>');
+  if (WITH_MEMORY) {
+    document.write('<table bgcolor=white border=2 cellpadding=1 cellspacing=1><tr><td align=left valign=top><input type=text name=MMBus size=16 maxlength=16 onfocus="blur();"></td></tr><tr><td align=center><font color=blue><b>Main Memory Bus</b></font></td></tr></table>');
   }
 </script>
 </td>
 </tr>
 </tbody></table>
-
 </td>
 
-<td align="center" valign="center">
-<img name="AArrow2" src="./shortDownArrowBlue.gif">
-</td>
-
-<td align="center" valign="center">
-<img name="BArrow2" src="./shortDownArrowBlue.gif">
-</td>
+<td align="center" valign="center"><img name="AArrow2" src="./shortDownArrowBlue.gif"></td>
+<td align="center" valign="center"><img name="BArrow2" src="./shortDownArrowBlue.gif"></td>
 </tr>
 
+<!-- ====================== 5️⃣  ALU BLOCK ====================== -->
 <tr>
 <td colspan="2" align="center" valign="top">
 <table width="100%" border="2" bgcolor="white" cellpadding="1" cellspacing="1">
-
-<tbody><tr>
+<tbody>
+<tr>
 <td align="center">A:<input type="text" size="16" maxlength="16" name="ALUA" onfocus="blur();"></td>
 <td align="center">B:<input type="text" size="16" maxlength="16" name="ALUB" onfocus="blur();"></td>
 </tr>
-
-<tr><td align="center" colspan="2">
-  <font color="blue"><b>Unità Logico-Aritmetica (ALU)</b></font>
-</td></tr>
-
+<tr><td align="center" colspan="2"><font color="blue"><b>Unità Logico‑Aritmetica (ALU)</b></font></td></tr>
 <tr>
 <td colspan="2" align="center" valign="center">
 <font color="green">Operazione dell'ALU</font><br><br>
-<a href="javascript:turnKnob(&#39;salu&#39;,&#39;ALU&#39;,1);">
+<a href="javascript:turnKnob('salu','ALU',1);">
 <img border="0" name="ALU" src="./saluDial0.gif"></a>
+<!-- *** NEW: place the bend arrow right next to the ALU knob *** -->
+<a href="javascript:toggleSwitch('bend');">
+<!-- <img border="0" name="bend" src="bendClosedBlue.gif" style="margin-left:0.4rem; vertical-align:middle;"> -->
+</a>
 </td>
 </tr>
 <tr>
-  <td colspan="2" align="center" valign="center">
-    C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
-    <div hidden>
-    <input type="checkbox" name="zero" onclick="document.datapath.zero.checked = !document.datapath.zero.checked">
-    &nbsp;&nbsp; Zero<br>
-    <input type="checkbox" name="negative" onclick="document.datapath.negative.checked = !document.datapath.negative.checked">
-    &nbsp;&nbsp; Negative<br>
-    <input type="checkbox" name="uoverflow" onclick="document.datapath.uoverflow.checked = !document.datapath.uoverflow.checked">
-    &nbsp;&nbsp; Unsigned Overflow<br>
-    <input type="checkbox" name="soverflow" onclick="document.datapath.soverflow.checked = !document.datapath.soverflow.checked">
-    &nbsp;&nbsp; Signed Overflow
-    </div>
-    </td>
+<td colspan="2" align="center" valign="center">
+C:<input type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br>
+<div hidden>
+<input type="checkbox" name="zero" onclick="document.datapath.zero.checked = !document.datapath.zero.checked">  Zero<br>
+<input type="checkbox" name="negative" onclick="document.datapath.negative.checked = !document.datapath.negative.checked">  Negative<br>
+<input type="checkbox" name="uoverflow" onclick="document.datapath.uoverflow.checked = !document.datapath.uoverflow.checked">  Unsigned Overflow<br>
+<input type="checkbox" name="soverflow" onclick="document.datapath.soverflow.checked = !document.datapath.soverflow.checked">  Signed Overflow
+</div>
+</td>
 </tr>
 </tbody></table>
+</td>
+</tr>
 
-<br>
-<br>
-<br>
-<br>
+<!-- ====================== 6️⃣  CONTROLS (RUN / PAUSE / SETTINGS) ====================== -->
+<tr>
+<td colspan="2" align="center" valign="top">
 <table border="0">
-  <tbody><tr>
-  <td align="left">
-  <input type="button" name="runButton" value="Esegui" onclick="executeCycle()">
-  </td>
-  <td align="left">
-  <input type="button" name="pauseButton" value="Pausa" onclick="pauseCycle()">
-  </td></tr>
-  <tr><td align="right">
-  <b>Velocità<br>animazione:</b>
-  </td>
-  <td align="left">
-  <select name="speed" onchange="changeSpeed()">
-      <option value="41">Lentissima
-      </option><option value="21">Lenta
-      </option><option value="13" selected="true">Media
-      </option><option value="5">Veloce
-      </option><option value="1">Velocissima
-    </option></select>
-  </td></tr>
-  <tr><td align="right">
-  <b>Base<br>numerica:</b>
-  </td>
-  <td align="left">
-  <select name="numberBase" onchange="changeBase()">
-      <option value="-10">+-10
-      </option><option value="10">10
-      </option><option value="2">2
-    </option></select>
-  </td>
-  </tr>
-  </tbody></table>
-
-</tbody></table> 
+<tr>
+<td align="left"><input type="button" name="runButton" value="Esegui" onclick="executeCycle()"></td>
+<td align="left"><input type="button" name="pauseButton" value="Pausa" onclick="pauseCycle()"></td>
+</tr>
+<tr>
+<td align="right"><b>Velocità<br>animazione:</b></td>
+<td align="left">
+<select name="speed" onchange="changeSpeed()">
+<option value="41">Lentissima</option>
+<option value="21">Lenta</option>
+<option value="13" selected="true">Media</option>
+<option value="5">Veloce</option>
+<option value="1">Velocissima</option>
+</select>
+</td>
+</tr>
+<tr>
+<td align="right"><b>Base<br>numerica:</b></td>
+<td align="left">
+<select name="numberBase" onchange="changeBase()">
+<option value="-10">+-10</option>
+<option value="10">10</option>
+<option value="2">2</option>
+</select>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</tbody></table>
 <!-- End of the full page table -->
-
-
-
-
-
-
-
-</center></form></body></html>
+</center>
+</form>
+</body>
+</html>
