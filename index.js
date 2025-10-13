@@ -175,7 +175,7 @@ function getKnobSetting(knobName) {
 
 function setKnob(knobPrefix, knobName, knobPos) {
 // Turn the knob to the given setting.
-    document.getElementById(knobName).src = "../" + knobPrefix + "Dial" + knobPos + ".gif";
+    document.getElementById(knobName).src =  knobPrefix + "Dial" + knobPos + ".gif";
     let line_idx;
     if(knobPrefix === "sreg"){
         if(knobName[0] === "C")
