@@ -1,90 +1,99 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>Percorso dati del processore</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="container text-center">
-      <h1>Simulatore del percorso dati del processore</h1>
-      Questo simulatore contiene solo i registri e l'ALU, quindi il tuo compito è fare l'unità di controllo.
-      <div class="mb-4 mt-4 text-start">
-          <b>Velocità animazione:</b>
-          <select name="speed" onchange="changeSpeed()">
-            <option value="41">Lentissima</option>
-            <option value="21">Lenta</option>
-            <option value="13" selected="true">Media</option>
-            <option value="5">Veloce</option>
-            <option value="1">Velocissima</option>
-          </select>
-          <br>
-          <b>Base numerica:</b>
-          <select name="numberBase" onchange="changeBase()">
-            <option value="-10">+-10</option>
-            <option value="10">10</option>
-            <option value="2">2</option>
-          </select>
-          <br>
-          <input type="button" id="runButton" value="Esegui" onclick="executeCycle()">
-          <input type="button" id="pauseButton" value="Pausa" onclick="pauseCycle()">
-      </div>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container text-center">
+    <h1>Simulatore del percorso dati del processore</h1>
+    Questo simulatore contiene solo i registri e l'ALU, quindi il tuo compito è fare l'unità di controllo.
+    <div class="mb-4 mt-4 text-center">
+<!--        <b>Velocità animazione:</b>-->
+<!--        <select name="speed" onchange="changeSpeed()">-->
+<!--            <option value="41">Lentissima</option>-->
+<!--            <option value="21">Lenta</option>-->
+<!--            <option selected="true" value="13">Media</option>-->
+<!--            <option value="5">Veloce</option>-->
+<!--            <option value="1">Velocissima</option>-->
+<!--        </select>-->
+<!--        <br>-->
+<!--        <b>Base numerica:</b>-->
+<!--        <select name="numberBase" onchange="changeBase()">-->
+<!--            <option value="-10">+-10</option>-->
+<!--            <option value="10">10</option>-->
+<!--            <option value="2">2</option>-->
+<!--        </select>-->
+<!--        <br>-->
+        <input id="runButton" onclick="executeCycle()" type="button" value="Esegui">
+<!--        <input id="pauseButton" onclick="pauseCycle()" type="button" value="Pausa">-->
+    </div>
 
-      <div class="row align-items-start mt-5 mb-5 pt-2 pb-2">
-          <b>Registri</b>
-          <div class="col" id="bus_C_col"> <!-- C‑address dial -->
+    <div class="row align-items-start mt-5 mb-5 pt-2 pb-2">
+        <b>Registri</b>
+        <div class="col" id="bus_C_col"> <!-- C‑address dial -->
             <font color="green">Indirizzo bus C</font><br><br>
             <a href="javascript:turnKnob('sreg','CAddr',1);">
-            <img id="CAddr" src="../sregDial0.gif"></a>
-          </div>
-          <div class="col"> <!-- REGISTER INPUTS (R0‑R3) -->
+                <img id="CAddr" src="../sregDial0.gif"></a>
+        </div>
+        <div class="col"> <!-- REGISTER INPUTS (R0‑R3) -->
             <table id="input_reg">
-                <tbody><tr id="R0_row"><td>
-                <label for="R0">R0:</label><input type="text" id="R0" tabindex="1">
-                </td></tr>
-                <tr id="R1_row"><td>
-                <label for="R1">R1:</label><input type="text" id="R1" tabindex="2">
-                </td></tr>
-                <tr id="R2_row"><td>
-                <label for="R2">R2:</label><input type="text" id="R2" tabindex="3">
-                </td></tr>
-                <tr id="R3_row"><td>
-                <label for="R3">R3:</label><input type="text" id="R3" tabindex="4">
-                </td></tr>
+                <tbody>
+                <tr id="R0_row">
+                    <td>
+                        <label for="R0">R0:</label><input id="R0" type="text" value="0">
+                    </td>
+                </tr>
+                <tr id="R1_row">
+                    <td>
+                        <label for="R1">R1:</label><input id="R1" type="text" value="0">
+                    </td>
+                </tr>
+                <tr id="R2_row">
+                    <td>
+                        <label for="R2">R2:</label><input id="R2" type="text" value="0">
+                    </td>
+                </tr>
+                <tr id="R3_row">
+                    <td>
+                        <label for="R3">R3:</label><input id="R3" type="text" value="0">
+                    </td>
+                </tr>
                 </tbody>
             </table>
-          </div>
-          <div class="col" id="bus_A_col"> <!-- A‑address dial -->
+        </div>
+        <div class="col" id="bus_A_col"> <!-- A‑address dial -->
             <font color="green">Indirizzo Bus A</font><br><br>
             <a href="javascript:turnKnob('sreg','AAddr',1)">
-            <img id="AAddr" src="../sregDial0.gif" alt="rotella bus A"></a>
-          </div>
-          <div class="col" id="bus_B_col"> <!-- B‑address dial -->
+                <img alt="rotella bus A" id="AAddr" src="../sregDial0.gif"></a>
+        </div>
+        <div class="col" id="bus_B_col"> <!-- B‑address dial -->
             <font color="green">Indirizzo Bus B</font><br><br>
             <a href="javascript:turnKnob('sreg','BAddr',1);">
-            <img id="BAddr" src="../sregDial0.gif" alt="rotella bus B"></a>
-          </div>
+                <img alt="rotella bus B" id="BAddr" src="../sregDial0.gif"></a>
         </div>
+    </div>
 
-        <div class="mt-5 mb-5 pt-5 pb-5">
-          <b>Unità Logico‑Aritmetica (ALU)</b>
-          <br>
-          A:<input id="ALU_A" type="text" size="16" maxlength="16" name="ALUA" onfocus="blur();">
-          B:<input id="ALU_B" type="text" size="16" maxlength="16" name="ALUB" onfocus="blur();">
-          <br>
-          <br>
-          <font color="green">Operazione dell'ALU</font><br><br>
-          <a href="javascript:turnKnob('salu','ALU',1);">
-          <img border="0" name="ALU" src="../saluDial0.gif"></a><br>
-          <font id="ALU_C">C:</font><input id="ALU_C" type="text" size="16" maxlength="16" name="ALUC" onfocus="blur();"><br> <!-- C‑address dial -->
-        </div>
+    <div class="mt-5 mb-5 pt-5 pb-5">
+        <b>Unità Logico‑Aritmetica (ALU)</b>
+        <br>
+        <label for="ALU_A">A:</label><input id="ALU_A" type="text" value="0">
+        <label for="ALU_B">B:</label><input id="ALU_B" type="text" value="0">
+        <font color="green">Operazione dell'ALU</font>
+        <br>
+        <a href="javascript:turnKnob('salu','ALU',1);">
+            <img id="ALU" src="../saluDial0.gif"></a><br>
+        <label for="ALU_C" id="ALU_C_lab">C:</label><input id="ALU_C" type="text" value="0"><br> <!-- C‑address dial -->
+    </div>
 
 
-    </div>  
-    <script src="../anseki_leaderline/leader-line.min.js"></script>
-    <script src="index.js"></script>
-  </body>
+</div>
+<script src="../anseki_leaderline/leader-line.min.js"></script>
+<script src="index.js"></script>
+</body>
 </html>

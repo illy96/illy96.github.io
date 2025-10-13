@@ -22,7 +22,7 @@ var bus_lines = [
         }
     ),
     new LeaderLine(
-        document.getElementById("ALU_C"),
+        document.getElementById("ALU_C_lab"),
         document.getElementById("R0_row"),
         {
             path: "fluid",
@@ -49,7 +49,7 @@ function executeCycle() {
 //  document.runLight.src = "runLightGreen.gif";
 
     if (run_btn.value === "Esegui") {
-        run_btn.value = "Halt";
+        // run_btn.value = "Halt";
 
         if (change_enabled) {
             change_enabled = false;
@@ -82,8 +82,13 @@ function setControls() {
     // completare!
 }
 
-function registersAnimation(registers, execTime) {
+function registersAnimation(registers, values, execTime) {
     return new Promise((resolve, reject) => {
+        if(values){
+            for (let i = 0; i < registers.length; i++) {
+                registers[i].value = values[i];
+            }
+        }
         let blinking_regs = setInterval(function () {
             for (let i = 0; i < registers.length; i++) {
                 registers[i].style.visibility = (registers[i].style.visibility === "" ? "hidden" : "")
@@ -91,26 +96,32 @@ function registersAnimation(registers, execTime) {
         }, 500)
         setTimeout(function () {
             clearInterval(blinking_regs);
-            resolve(execTime);
+            resolve(values);
         }, execTime);
     });
 }
 
 function busesAnimation(buses, values, whendone, execTime) {
-    for (let i = 0; i < buses.length; i++) {
-        let bus_line = buses[i];
-        bus_line.setOptions(
-            {
-                dash: {animation: true},
-                color: 'red',
-                endLabel: LeaderLine.pathLabel({text: String(values[i]), fontWeight: 900, fontSize: 40})
-            })
-    }
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < buses.length; i++) {
+            let bus_line = buses[i];
+            bus_line.setOptions(
+                {
+                    dash: {animation: true},
+                    color: 'red',
+                    endLabel: LeaderLine.pathLabel({text: String(values[i]), fontWeight: 900, fontSize: 40})
+                })
+        }
 
-    dashing.is_dashing = true;
-    dashing.buses = buses;
-    setTimeout(stopBusesAnimation, execTime);
+        dashing.is_dashing = true;
+        dashing.buses = buses;
+        setTimeout(function (){
+            stopBusesAnimation();
+            resolve(values);
+        }, execTime);
+    });
 }
+
 
 function stopBusesAnimation() {
     dashing.buses.forEach(function (bus_line, idx) {
@@ -132,10 +143,16 @@ function loadABBusReg() {
         bus_values.push(B_reg.value);
         regs.push(B_reg)
     } else bus_values.push(A_reg.value);
-
-    registersAnimation(regs, 3000)
-        .then(time => {
+    let C_reg = document.getElementById("R" + getKnobSetting("CAddr"));
+    let time = 3000;
+    registersAnimation(regs, null, time)
+        .then(() => {
             busesAnimation([bus_lines[0], bus_lines[1]], bus_values, stopBusesAnimation, time)
+                .then(values => {
+                    registersAnimation([document.getElementById("ALU_A"), document.getElementById("ALU_B")], values, time)
+                    .then(values => {registersAnimation([document.getElementById("ALU_C")], getKnobSetting("ALU") === 0 ? [parseInt(values[0])+parseInt(values[1])] : [parseInt(values[0])-parseInt(values[1])], time)
+                        .then(values => busesAnimation([bus_lines[2]], values, stopBusesAnimation, time)
+                            .then(values => registersAnimation([C_reg], values, time)).then(value=>change_enabled=true))})})
         })
 }
 
@@ -160,15 +177,17 @@ function setKnob(knobPrefix, knobName, knobPos) {
 // Turn the knob to the given setting.
     document.getElementById(knobName).src = "../" + knobPrefix + "Dial" + knobPos + ".gif";
     let line_idx;
-
-    if(knobName[0] === "C")
-        bus_lines[2].end = document.getElementById("R"+knobPos+"_row");
-    else{
-        if(knobName[0] === "B")
-            line_idx = 1;
-        else line_idx = 0;
-        bus_lines[line_idx].start = document.getElementById("R"+knobPos+"_row");
+    if(knobPrefix === "sreg"){
+        if(knobName[0] === "C")
+            bus_lines[2].end = document.getElementById("R"+knobPos+"_row");
+        else{
+            if(knobName[0] === "B")
+                line_idx = 1;
+            else line_idx = 0;
+            bus_lines[line_idx].start = document.getElementById("R"+knobPos+"_row");
+        }
     }
+
 }
 
 function turnKnob(knobPrefix, knobName, knobInc) {
@@ -177,9 +196,14 @@ function turnKnob(knobPrefix, knobName, knobInc) {
 
     if (change_enabled) {
         knobPos = getKnobSetting(knobName) + knobInc;
-
-        if (knobPos > 3)
-            knobPos = 0;
+        if(knobPrefix === "sreg"){
+            if (knobPos > 3)
+                knobPos = 0;
+        }
+        else {
+            if (knobPos > 1)
+                knobPos = 0;
+        }
 
         setKnob(knobPrefix, knobName, knobPos);
 
