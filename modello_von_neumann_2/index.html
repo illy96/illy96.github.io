@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modello di von Neumann</title>
+    <link href="von_neumann.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>Il modello di von Neumann</h1>
+    <p class="hint">Fai clic sul <b>processore</b> per aprire il simulatore del percorso dati.</p>
+</header>
+
+<main>
+    <!-- Il palco: diagramma, linee e foto vengono posizionati da von_neumann.js
+         (disposizione larga su computer, disposizione alta su telefono). -->
+    <div id="stage">
+        <svg id="stage_svg" aria-hidden="true">
+            <defs>
+                <!-- Diagramma originale (von_neumann.svg), coordinate: viewBox 0 6 660 280 -->
+                <g id="vn_diagram">
+<line x1="76" y1="40" x2="88.3" y2="40.0" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="99.3,40 88.3,46.0 88.3,34.0" fill="#2E9E4F"/>
+<line x1="185" y1="40" x2="225.3" y2="40.0" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="236.3,40 225.3,46.0 225.3,34.0" fill="#2E9E4F"/>
+<line x1="405" y1="40" x2="448.3" y2="40.0" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="459.3,40 448.3,46.0 448.3,34.0" fill="#2E9E4F"/>
+<line x1="545" y1="40" x2="581.0" y2="40.0" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="592,40 581.0,46.0 581.0,34.0" fill="#2E9E4F"/>
+<line x1="316" y1="50" x2="316.0" y2="103.3" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="316,114.3 310.0,103.3 322.0,103.3" fill="#2E9E4F"/>
+<line x1="342" y1="130" x2="342.0" y2="78.8" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="342,67.8 348.0,78.8 336.0,78.8" fill="#2E9E4F"/>
+<rect x="105" y="23" width="95" height="44" rx="6" fill="#4F8FBF" stroke="#3C6E93" stroke-width="1.5"/>
+<rect x="100" y="18" width="95" height="44" rx="6" fill="#BFE3F7" stroke="#3C6E93" stroke-width="1.5"/>
+<rect x="242" y="23" width="178" height="44" rx="6" fill="#C9962A" stroke="#9C7320" stroke-width="1.5"/>
+<rect x="237" y="18" width="178" height="44" rx="6" fill="#FFD84C" stroke="#9C7320" stroke-width="1.5"/>
+<rect x="465" y="23" width="95" height="44" rx="6" fill="#4F8FBF" stroke="#3C6E93" stroke-width="1.5"/>
+<rect x="460" y="18" width="95" height="44" rx="6" fill="#BFE3F7" stroke="#3C6E93" stroke-width="1.5"/>
+<rect x="242" y="120" width="180" height="150" rx="6" fill="#B8611F" stroke="#8E4A16" stroke-width="1.5"/>
+<rect x="237" y="115" width="180" height="150" rx="6" fill="#F7863A" stroke="#8E4A16" stroke-width="1.5"/>
+<text x="38" y="35" font-family="Liberation Sans, Arial, sans-serif" font-size="13" fill="#2B2B2B" text-anchor="middle">DATI IN</text>
+<text x="38" y="52" font-family="Liberation Sans, Arial, sans-serif" font-size="13" fill="#2B2B2B" text-anchor="middle">INGRESSO</text>
+<text x="624" y="35" font-family="Liberation Sans, Arial, sans-serif" font-size="14" fill="#2B2B2B" text-anchor="middle">DATI IN</text>
+<text x="624" y="52" font-family="Liberation Sans, Arial, sans-serif" font-size="14" fill="#2B2B2B" text-anchor="middle">USCITA</text>
+<text x="147.5" y="36" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="normal" fill="#2B2B2B" text-anchor="middle">dispositivo</text>
+<text x="121.3" y="54" font-family="Liberation Sans, Arial, sans-serif" font-size="15" fill="#2B2B2B">di&#160;</text>
+<text x="137.1" y="54" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2B2B2B">input</text>
+<text x="326" y="36" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="normal" fill="#2B2B2B" text-anchor="middle">memoria centrale</text>
+<text x="326" y="54" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2B2B2B" text-anchor="middle">RAM</text>
+<text x="507.5" y="36" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="normal" fill="#2B2B2B" text-anchor="middle">dispositivo</text>
+<text x="476.3" y="54" font-family="Liberation Sans, Arial, sans-serif" font-size="15" fill="#2B2B2B">di&#160;</text>
+<text x="492.1" y="54" font-family="Liberation Sans, Arial, sans-serif" font-size="15" font-weight="bold" fill="#2B2B2B">output</text>
+<text x="327" y="186" font-family="Liberation Sans, Arial, sans-serif" font-size="17" font-weight="bold" fill="#2B2B2B" text-anchor="middle">CPU</text>
+<text x="327" y="206" font-family="Liberation Sans, Arial, sans-serif" font-size="16" font-weight="normal" fill="#2B2B2B" text-anchor="middle">microprocessore</text>
+<rect x="478" y="232" width="128" height="34" rx="6" fill="#fff" stroke="#9a9a9a" stroke-width="1.2"/>
+<line x1="492" y1="249" x2="521.0" y2="249.0" stroke="#2E9E4F" stroke-width="3" stroke-linecap="round"/>
+<polygon points="532,249 521.0,255.0 521.0,243.0" fill="#2E9E4F"/>
+<text x="542" y="254" font-family="Liberation Sans, Arial, sans-serif" font-size="15" fill="#2B2B2B">= bus</text>
+                </g>
+            </defs>
+            <g id="links"></g>
+            <use href="#vn_diagram" id="diagram_use"/>
+            <!-- zona cliccabile sopra la CPU del diagramma -->
+            <a href="simulatore/index.html" id="cpu_link" aria-label="Apri il simulatore del processore">
+                <rect id="cpu_hit" rx="8"/>
+            </a>
+        </svg>
+        <div id="cards"></div>
+    </div>
+</main>
+
+<footer>
+    <p>Foto da <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>
+        (licenze libere, autori indicati nella pagina di ogni foto):
+        <span id="credits"></span></p>
+</footer>
+
+<script src="von_neumann.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+Foto per l'uso senza Internet
+==============================
+
+La pagina carica le foto da Wikimedia Commons.
+Se metti in questa cartella delle foto con questi nomi, la pagina usa quelle
+(e funziona anche senza connessione):
+
+  cpu.jpg           processore
+  ram.jpg           modulo di memoria RAM
+  bus.jpg           piste della scheda madre (bus)
+  tastiera.jpg
+  mouse.jpg
+  microfono.jpg
+  webcam.jpg
+  monitor.jpg
+  stampante.jpg
+  altoparlanti.jpg
+  cuffie.jpg
+
+Le foto originali usate dalla pagina sono elencate (con il link) in fondo alla pagina.

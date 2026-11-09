@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Percorso dati del processore</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+    <link href="minimal_css_design.css" rel="stylesheet">
+    <link href="datapath.css" rel="stylesheet">
+</head>
+<body class="">
+<div class="container-fluid text-center">
+    <h1>Simulatore del percorso dati del processore</h1>
+    <div class="d-none d-md-block">
+        <span class="only-dp">Questo simulatore contiene solo i registri e l'ALU, quindi il tuo compito è fare l'unità di controllo.</span>
+        <span class="only-ram">Registri, ALU e memoria RAM: il tuo compito è fare l'unità di controllo e il decoder della memoria.</span>
+        <span class="only-instr">Scrivi il programma nella memoria (assembly o binario): l'unità di controllo lo esegue da sola.</span>
+    </div>
+    <div class="mb-4 mt-4 text-center" id="controls">
+
+        Versione:
+        <select id="version" onchange="setVersion(this.value)">
+            <option value="dp">Solo percorso dati</option>
+            <option value="ram">Con memoria RAM</option>
+            <option value="instr">Istruzioni</option>
+        </select>
+        <br class="dp-ctrl-br">
+        Base numerica:
+        <select id="numberBase" onchange="changeBase()">
+            <option value="10">10</option>
+            <option value="2">2</option>
+<!--            <option value="2">16</option>-->
+        </select>
+        <br class="dp-ctrl-br">
+        Velocità animazione:
+        <select id="speed">
+            <option>Lentissima</option>
+            <option>Lenta</option>
+            <option selected="selected">Media</option>
+            <option>Veloce</option>
+            <option>Velocissima</option>
+        </select>
+        <br class="dp-ctrl-br">
+        <span class="only-instr ctrl-group">
+            Memoria come:
+            <select id="memView" onchange="renderAllCells()">
+                <option value="asm">assembly</option>
+                <option value="bin">binario</option>
+            </select>
+        </span>
+        <br class="dp-ctrl-br">
+        <input id="runButton" onclick="executeCycle()" type="button" value="Esegui">
+        <span class="only-instr ctrl-group">
+            <input id="stepButton" onclick="stepProgram()" type="button" value="Passo">
+            <input id="resetButton" onclick="resetCPU()" type="button" value="Reset">
+            <input id="exampleButton" onclick="loadExample()" type="button" value="Esempio">
+        </span>
+        <div id="dp_message" role="status" aria-live="polite"></div>
+<!--        <input id="pauseButton" onclick="pauseCycle()" type="button" value="Pausa">-->
+    </div>
+
+    <!--
+        Percorso dati: due pannelli (Registri e ALU); i bus sono disegnati in un SVG sovrapposto.
+        Telefono/tablet: pannelli uno sopra l'altro, bus nei margini laterali (C a sinistra, A e B a destra).
+        Versione con RAM: la memoria sta a sinistra (computer) o sotto l'ALU (telefono); gli interruttori
+        (#dp_switches) vengono posizionati sui bus da index.js.
+        Computer (>= 1000px): le rotelle stanno accanto ai registri (C a sinistra, A e B a destra)
+        e nel pannello Registri i bus corrono nelle corsie interne #lane_C e #lane_AB;
+        il resto ha la stessa struttura del telefono.
+    -->
+    <div id="datapath">
+        <svg id="bus_layer" aria-hidden="true"></svg>
+        <div id="dp_switches"></div>
+
+        <fieldset class="dp-panel" id="reg_panel">
+            <legend>Registri</legend>
+
+            <div class="dp-body">
+            <div class="dp-lane" id="lane_C"></div>
+            <div class="dp-lane" id="lane_AB"></div>
+            <div class="dp-dials">
+                <div id="bus_C_col"> <!-- C‑address dial -->
+                    <span class="dp-dial-label">Indirizzo bus C</span>
+                    <a href="javascript:turnKnob('sreg','CAddr',1);">
+                        <img alt="rotella bus C" id="CAddr" src="sregDial0.svg"></a>
+                </div>
+                <div id="bus_A_col"> <!-- A‑address dial -->
+                    <span class="dp-dial-label">Indirizzo bus A</span>
+                    <a href="javascript:turnKnob('sreg','AAddr',1)">
+                        <img alt="rotella bus A" id="AAddr" src="sregDial0.svg"></a>
+                </div>
+                <div id="bus_B_col"> <!-- B‑address dial -->
+                    <span class="dp-dial-label">Indirizzo bus B</span>
+                    <a href="javascript:turnKnob('sreg','BAddr',1);">
+                        <img alt="rotella bus B" id="BAddr" src="sregDial0.svg"></a>
+                </div>
+            </div>
+
+            <div id="input_reg"> <!-- REGISTER INPUTS (R0‑R3) -->
+                <div class="dp-field" id="R0_row">
+                    <label for="R0">R0:</label>
+                    <input class="form-control" id="R0" type="text" value="0">
+                </div>
+                <div class="dp-field" id="R1_row">
+                    <label for="R1">R1:</label>
+                    <input class="form-control" id="R1" type="text" value="0">
+                </div>
+                <div class="dp-field" id="R2_row">
+                    <label for="R2">R2:</label>
+                    <input class="form-control" id="R2" type="text" value="0">
+                </div>
+                <div class="dp-field" id="R3_row">
+                    <label for="R3">R3:</label>
+                    <input class="form-control" id="R3" type="text" value="0">
+                </div>
+            </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="dp-panel" id="alu_panel">
+            <legend>Unità Logico‑Aritmetica (ALU)</legend>
+
+            <div class="dp-body">
+            <div class="dp-alu-inputs">
+                <div class="dp-field" id="ALU_A_col">
+                    <label for="ALU_A">A:</label>
+                    <input class="form-control" id="ALU_A" type="text" value="0">
+                </div>
+                <div class="dp-field" id="ALU_B_col">
+                    <label for="ALU_B">B:</label>
+                    <input class="form-control" id="ALU_B" type="text" value="0">
+                </div>
+            </div>
+
+            <div class="dp-alu-op">
+                <span class="dp-dial-label">Operazione dell'ALU</span>
+                <a href="javascript:turnKnob('salu','ALU',1);">
+                    <img id="ALU" src="saluDial0.svg" alt="operazione ALU">
+                </a>
+            </div>
+
+            <div class="dp-field" id="ALU_C_row">
+                <label for="ALU_C" id="ALU_C_lab">C:</label>
+                <input class="form-control" id="ALU_C" type="text" value="0">
+            </div>
+            </div>
+        </fieldset>
+
+        <!-- Colonna della memoria (versioni con RAM). Nella versione Istruzioni contiene anche
+             l'unità di controllo (PC, IR, fase, flag). -->
+        <div id="dp_left">
+            <fieldset class="dp-panel" id="cu_panel">
+                <legend>Unità di controllo</legend>
+                <div class="cu-status">
+                    <span>Fase: <b id="cu_phase">pronta</b></span>
+                    <label><input type="checkbox" id="flag_Z" disabled> Zero</label>
+                    <label><input type="checkbox" id="flag_N" disabled> Negativo</label>
+                </div>
+                <div class="cu-regs">
+                    <div class="dp-field" id="PC_row">
+                        <label for="PC">PC:</label>
+                        <input class="form-control no-base" id="PC" type="text" value="0">
+                    </div>
+                    <div class="dp-field" id="IR_row">
+                        <label for="IR">IR:</label>
+                        <input class="form-control no-base" id="IR" type="text" value="" readonly>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Memoria RAM: 16 celle ("Con memoria RAM") o 32 ("Istruzioni"), ognuna collegata
+                 al bus della memoria da un interruttore. Le righe sono create da index.js. -->
+            <fieldset class="dp-panel" id="ram_panel">
+                <legend>Memoria RAM</legend>
+                <div class="dp-field" id="MAR_row">
+                    <label for="MAR">Indirizzo:</label>
+                    <input class="form-control no-base" id="MAR" type="text" value="" readonly>
+                </div>
+                <div id="ram_cells"></div>
+            </fieldset>
+        </div>
+    </div>
+
+</div>
+<script src="index.js"></script>
+<script src="istruzioni.js"></script>
+</body>
+</html>

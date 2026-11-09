@@ -1,0 +1,159 @@
+/* Root variables for consistent theming */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --bg-color: #ecf0f1;
+    --border-color: #bdc3c7;
+    --text-color: #2c3e50;
+}
+
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*body {*/
+/*    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+/*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+/*    color: var(--text-color);*/
+/*    min-height: 100vh;*/
+/*    padding: 0.5rem;*/
+/*}*/
+
+/* Main container - NO scrolling or height restrictions */
+/*.container-fluid {*/
+/*    background: white;*/
+/*    border-radius: 12px;*/
+/*    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);*/
+/*    padding: 1.5rem 1rem;*/
+/*}*/
+
+/* Headings */
+h1 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Controls section */
+select, input[type="button"] {
+    padding: 0.4rem 0.8rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+select {
+    background: white;
+    cursor: pointer;
+}
+
+select:hover {
+    border-color: var(--secondary-color);
+}
+
+input[type="button"] {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="button"]:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+input[type="button"]:active {
+    transform: translateY(0);
+}
+
+/* Row sections */
+.row {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.row b {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+/* Border styling */
+.border {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background: #f8f9fa;
+}
+
+/* Form controls */
+.form-control {
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.3rem;
+    font-size: 0.85rem;
+    transition: border-color 0.3s ease;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Labels */
+label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+/* Images/Knobs */
+img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+a img:hover {
+    transform: scale(1.05);
+}
+
+/* Compact spacing for fitting content */
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.mt-4 {
+    margin-top: 1rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    body {
+        padding: 0.25rem;
+    }
+    
+    .container-fluid {
+        padding: 1rem 0.5rem;
+    }
+}

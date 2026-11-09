@@ -1,0 +1,764 @@
+/* ------------------------------------------------------------------
+   Percorso dati: layout unico che si adatta a ogni larghezza.
+   I pannelli stanno al centro; i margini laterali (gutter) ospitano
+   i bus: a sinistra il Bus C, a destra il Bus A e il Bus B.
+   ------------------------------------------------------------------ */
+
+:root {
+    --gutter-l: 44px;          /* spazio per il Bus C */
+    --gutter-r: 72px;          /* spazio per il Bus A e il Bus B */
+    --panel-gap: 44px;         /* distanza verticale tra Registri e ALU */
+    --bus-idle: #1f4fd6;
+    --bus-active: #d62828;
+    --panel-border: #6c7a96;
+    --alu-gap: 24px;           /* spazio tra il campo A e il campo B */
+    --label-w: 2em;            /* larghezza comune di tutte le etichette (R0:, A:, C: ...) */
+    /* palette "pastel colors of the rainbow": https://www.color-hex.com/color-palette/5361 */
+    --reg-bg: #e1ffe8;         /* #baffc9 della palette, schiarito */
+    --alu-bg: #ffffe1;         /* #ffffba della palette, schiarito */
+}
+
+@media (min-width: 768px) {
+    :root {
+        --gutter-l: 90px;
+        --gutter-r: 150px;
+        --panel-gap: 60px;
+    }
+}
+
+#datapath {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto 40px;
+    padding: 0 var(--gutter-r) 0 var(--gutter-l);
+}
+
+/* Livello dei bus, sopra i pannelli ma trasparente ai clic */
+#bus_layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- Pannelli con bordo (componenti logici) --- */
+fieldset.dp-panel {
+    border: 2px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 10px 12px 14px;
+    margin: 0;
+    min-width: 0;
+    background: #fff;
+}
+
+/* sfondi pastello: un colore per ogni componente */
+#reg_panel {
+    background: var(--reg-bg);
+}
+
+#alu_panel {
+    background: var(--alu-bg);
+}
+
+fieldset.dp-panel + fieldset.dp-panel {
+    margin-top: var(--panel-gap);
+}
+
+fieldset.dp-panel > legend {
+    float: none;
+    width: auto;
+    margin: 0 auto;
+    padding: 0 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+/* corsie interne dei bus: usate solo nel layout per computer */
+.dp-lane {
+    display: none;
+}
+
+/* --- Rotelle dei registri --- */
+.dp-dials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+.dp-dial-label {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.15;
+    min-height: 2.3em;
+    margin-bottom: 4px;
+}
+
+.dp-dials img,
+.dp-alu-op img {
+    width: 100%;
+    max-width: 92px;
+    height: auto;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dp-dials a,
+.dp-alu-op a {
+    display: inline-block;
+    border-radius: 50%;
+}
+
+/* la rotella si "solleva" sotto il mouse e mostra il focus da tastiera */
+.dp-dials a:hover img,
+.dp-alu-op a:hover img {
+    transform: scale(1.06);
+}
+
+.dp-dials a:active img,
+.dp-alu-op a:active img {
+    transform: scale(0.96);
+}
+
+.dp-dials a:focus-visible,
+.dp-alu-op a:focus-visible {
+    outline: 3px solid var(--bus-idle);
+    outline-offset: 2px;
+}
+
+.dp-alu-op img {
+    max-width: 120px;
+}
+
+/* --- Campo con etichetta (registri e ingressi/uscita ALU) --- */
+.dp-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dp-field + .dp-field {
+    margin-top: 4px;
+}
+
+.dp-field > label {
+    flex: 0 0 auto;
+    min-width: var(--label-w);
+    text-align: left;
+    font-weight: 500;
+}
+
+.dp-field > .form-control {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 4px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #fff;
+}
+
+/* Tutti i campi hanno la stessa misura: registri, A, B e C occupano
+   ciascuno la larghezza di una colonna degli ingressi dell'ALU,
+   e tutte le etichette hanno la stessa larghezza. */
+#input_reg,
+#ALU_C_row {
+    width: calc((100% - var(--alu-gap)) / 2);
+    margin: 0 auto;
+}
+
+/* --- ALU --- */
+.dp-alu-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--alu-gap);
+    margin-top: 44px;          /* spazio per i tratti orizzontali del Bus A e del Bus B */
+}
+
+.dp-alu-inputs .dp-field + .dp-field {
+    margin-top: 0;
+}
+
+.dp-alu-op {
+    margin: 10px auto 6px;
+}
+
+/* --- Bus (SVG) --- */
+.bus-line {
+    fill: none;
+    stroke: var(--bus-idle);
+    stroke-width: 3;
+    stroke-linejoin: round;
+}
+
+.bus-arrow {
+    fill: var(--bus-idle);
+}
+
+.bus-name {
+    font: bold 12px system-ui, sans-serif;
+    fill: var(--bus-idle);
+}
+
+.bus-name-bg {
+    fill: #fff;
+}
+
+.bus.active .bus-line {
+    stroke: var(--bus-active);
+    stroke-dasharray: 10 6;
+    animation: bus-flow 0.6s linear infinite;
+}
+
+/* durante il passaggio dei dati il nome lascia il posto al valore */
+.bus.active .bus-name,
+.bus.active .bus-name-bg {
+    visibility: hidden;
+}
+
+.bus.active .bus-arrow,
+.bus.active .bus-name {
+    fill: var(--bus-active);
+}
+
+.bus-value rect {
+    fill: var(--bus-active);
+}
+
+.bus-value text {
+    fill: #fff;
+    font: bold 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (min-width: 768px) {
+    .bus-name { font-size: 14px; }
+    .bus-value text { font-size: 22px; }
+}
+
+@keyframes bus-flow {
+    to { stroke-dashoffset: -16; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bus.active .bus-line { animation: none; }
+}
+
+/* --- Telefoni molto stretti: 8 cifre binarie devono restare leggibili --- */
+@media (max-width: 400px) {
+    :root {
+        --gutter-l: 30px;
+        --gutter-r: 58px;
+    }
+    fieldset.dp-panel {
+        padding: 8px 8px 12px;
+    }
+    fieldset.dp-panel > legend {
+        font-size: 0.95rem;
+    }
+    :root {
+        --alu-gap: 12px;
+        --label-w: 1.7em;
+    }
+    .dp-field > .form-control {
+        font-size: 12.5px;
+        padding: 4px 2px;
+    }
+}
+
+@media (max-width: 350px) {
+    :root {
+        --gutter-l: 26px;
+        --gutter-r: 50px;
+    }
+    fieldset.dp-panel {
+        padding: 8px 6px 12px;
+    }
+    .dp-field > .form-control {
+        font-size: 11px;
+    }
+}
+
+/* --- Tablet: rotelle un po' più grandi --- */
+@media (min-width: 768px) and (max-width: 999px) {
+    .dp-dials img { max-width: 130px; }
+    .dp-alu-op img { max-width: 150px; }
+}
+
+/* ==================================================================
+   Computer / proiettore (>= 1000px)
+   Cambia solo la disposizione del pannello Registri:
+     | rotella C | corsia Bus C | registri | corsie Bus A, B | rotella A | rotella B |
+   con le rotelle centrate in verticale rispetto ai registri.
+   L'ALU ha la stessa struttura del telefono; il Bus C corre nel margine sinistro.
+
+   Tutte le misure dipendono da --u (circa 1% dell'altezza della finestra),
+   così intestazione, comandi e simulatore stanno sempre in una sola schermata,
+   grandi quanto lo schermo permette (utile per il proiettore).
+   Per ingrandire o rimpicciolire tutto: cambiare --u.
+   ================================================================== */
+@media (min-width: 1000px) {
+    :root {
+        --u: min(1.1vh, 0.68vw);
+        --gutter-l: calc(7 * var(--u));
+        --gutter-r: 0px;
+        --panel-gap: calc(7.5 * var(--u));   /* qui i bus passano dalle corsie dei registri all'ALU */
+        --label-w: 2.3em;
+        --field-w: calc(34 * var(--u));      /* larghezza di ogni campo (etichetta compresa) */
+        --alu-gap: calc(17 * var(--u));      /* distanza tra il campo A e il campo B */
+        --lane-c: calc(5.5 * var(--u));      /* corsia del Bus C */
+        --lane-ab: calc(9 * var(--u));       /* corsie del Bus A e del Bus B */
+    }
+
+    /* --- Intestazione compatta: titolo, frase e comandi su una riga --- */
+    .container-fluid > h1 {
+        font-size: calc(4 * var(--u));
+        margin: calc(0.8 * var(--u)) 0 calc(0.3 * var(--u));
+    }
+    .d-md-block {
+        font-size: calc(2 * var(--u));
+    }
+    #controls {
+        margin-top: calc(1.2 * var(--u)) !important;
+        margin-bottom: calc(2.6 * var(--u)) !important;
+        font-size: calc(2.2 * var(--u));
+    }
+    #controls br {
+        display: none;
+    }
+    #controls select,
+    #controls input[type="button"] {
+        font-size: calc(2.1 * var(--u));
+        padding: calc(0.4 * var(--u)) calc(1 * var(--u));
+        margin: 0 calc(1.2 * var(--u)) 0 calc(0.4 * var(--u));
+    }
+
+    #datapath {
+        max-width: calc(140 * var(--u));
+        margin-bottom: 0;
+    }
+
+    fieldset.dp-panel {
+        padding: calc(0.4 * var(--u)) calc(1.8 * var(--u)) calc(1.6 * var(--u));
+        border-radius: calc(1.2 * var(--u));
+    }
+    fieldset.dp-panel > legend {
+        font-size: calc(2.5 * var(--u));
+    }
+
+    /* --- Registri --- */
+    #reg_panel .dp-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) var(--lane-c) var(--field-w) var(--lane-ab) minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        justify-items: center;
+    }
+    .dp-lane {
+        display: block;
+        grid-row: 1;
+        align-self: stretch;
+        width: 100%;
+    }
+    #lane_C  { grid-column: 2; }
+    #lane_AB { grid-column: 4; }
+    .dp-dials {
+        display: contents;
+    }
+    #bus_C_col  { grid-column: 1; grid-row: 1; }
+    #input_reg  { grid-column: 3; grid-row: 1; width: 100%; margin: 0; }
+    #bus_A_col  { grid-column: 5; grid-row: 1; }
+    #bus_B_col  { grid-column: 6; grid-row: 1; }
+
+    .dp-dial-label {
+        font-size: calc(1.9 * var(--u));
+        min-height: 0;
+        margin-bottom: calc(0.3 * var(--u));
+    }
+    .dp-dials img { max-width: calc(17 * var(--u)); }
+
+    /* --- Campi (registri, A, B, C): tutti larghi --field-w --- */
+    .dp-field > label { font-size: calc(2.5 * var(--u)); }
+    .dp-field > .form-control {
+        font-size: calc(2.7 * var(--u));
+        padding: calc(0.2 * var(--u)) calc(0.8 * var(--u));
+        border-radius: calc(0.6 * var(--u));
+    }
+    .dp-field + .dp-field { margin-top: calc(0.8 * var(--u)); }
+
+    /* --- ALU: stessa struttura di prima --- */
+    .dp-alu-inputs {
+        grid-template-columns: var(--field-w) var(--field-w);
+        justify-content: center;
+        margin-top: calc(3.6 * var(--u));
+    }
+    .dp-alu-op {
+        margin: calc(0.4 * var(--u)) auto calc(0.2 * var(--u));
+    }
+    .dp-alu-op img { max-width: calc(21 * var(--u)); }
+    #ALU_C_row {
+        width: var(--field-w);
+    }
+
+    /* --- Bus --- */
+    .bus-line { stroke-width: max(3px, calc(0.45 * var(--u))); }
+    .bus-name { font-size: calc(1.8 * var(--u)); }
+    .bus-value text { font-size: calc(2.7 * var(--u)); }
+}
+
+/* ==================================================================
+   Versione "Con memoria RAM"
+   - computer: RAM a sinistra, poi una fascia con il Bus C e gli
+     interruttori "leggi" / "scrivi", poi Registri e ALU;
+   - telefono / tablet: RAM sotto l'ALU.
+   Ogni cella è collegata al bus della memoria da un interruttore:
+   lo studente fa da decoder e chiude quello della cella da usare.
+   ================================================================== */
+:root {
+    --ram-bg: #e3f2ff;           /* #bae1ff della palette, schiarito */
+    --sw-w: 40px;                /* interruttori sui bus: lunghezza */
+    --sw-h: 22px;                /*                       altezza   */
+    --cell-sw-w: 34px;           /* interruttori delle celle */
+    --cell-sw-h: 18px;
+    --ram-gap: 110px;            /* telefono: spazio tra ALU e RAM (interruttori leggi/scrivi) */
+}
+
+.only-ram { display: none; }
+body.with-ram .only-ram { display: inline; }
+body.with-ram .only-dp { display: none; }
+
+#ram_panel {
+    display: none;
+    background: var(--ram-bg);
+}
+body.with-ram #ram_panel {
+    display: block;
+}
+#dp_left { display: none; }
+body.with-ram #dp_left {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--ram-gap);
+}
+
+#ram_cells {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-right: 34px;         /* spazio per la linea verticale del bus della memoria */
+}
+
+.ram-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.ram-row > label {
+    flex: 0 0 auto;
+    min-width: 2.2em;
+    text-align: right;
+    font-weight: 500;
+}
+.ram-row > .sw {
+    width: var(--cell-sw-w);
+    height: var(--cell-sw-h);
+}
+.ram-row > .form-control {
+    flex: 0 1 9em;
+    min-width: 0;
+    padding: 2px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: #fff;
+}
+
+/* --- Interruttori --- */
+.sw {
+    position: relative;
+    flex: 0 0 auto;
+    width: var(--sw-w);
+    height: var(--sw-h);
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+.sw:hover { background: rgba(31, 79, 214, 0.10); }
+.sw:focus-visible { outline: 2px solid var(--bus-idle); outline-offset: 1px; }
+.sw svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.sw circle { fill: var(--bus-idle); }
+.sw line { stroke-width: 2.6; stroke-linecap: round; }
+.sw .blade-open { stroke: var(--bus-idle); }
+.sw .blade-closed { stroke: #2e9e5b; display: none; }
+.sw[aria-pressed="true"] .blade-open { display: none; }
+.sw[aria-pressed="true"] .blade-closed { display: inline; }
+.sw.active circle { fill: var(--bus-active); }
+.sw.active .blade-closed { stroke: var(--bus-active); }
+
+.sw-label {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: var(--text-color, #2c3e50);
+    pointer-events: none;
+}
+.sw.label-below .sw-label { bottom: auto; top: 100%; }
+
+/* interruttori sui bus del percorso dati: posizionati da index.js */
+#dp_switches {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+#dp_switches .sw {
+    position: absolute;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+body.with-ram #dp_switches .sw { display: block; }
+#dp_switches .sw.vertical {
+    width: var(--sw-h);
+    height: var(--sw-w);
+}
+#dp_switches .sw.vertical svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--sw-w);
+    height: var(--sw-h);
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+#dp_switches .sw.vertical .sw-label {
+    left: 100%;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 4px;
+}
+
+/* --- Messaggi (conflitti sui bus, avvisi) --- */
+#dp_message {
+    min-height: 1.3em;
+    margin-top: 4px;
+    font-size: 0.95rem;
+}
+#dp_message.err { color: #c0392b; font-weight: 600; }
+#dp_message.info { color: #5d6d7e; }
+
+/* --- Computer: RAM a sinistra --- */
+@media (min-width: 1000px) {
+    body.with-ram {
+        --u: min(1.1vh, 0.62vw);
+        --ram-w: calc(26 * var(--u));
+        --zone: calc(15 * var(--u));      /* fascia tra RAM e registri: Bus C e interruttori */
+        --sw-w: calc(5 * var(--u));
+        --sw-h: calc(2.6 * var(--u));
+        --cell-sw-w: calc(3.6 * var(--u));
+        --cell-sw-h: calc(1.9 * var(--u));
+    }
+    body.with-ram #datapath {
+        display: grid;
+        grid-template-columns: var(--ram-w) var(--zone) minmax(0, 1fr);
+        align-items: start;
+        padding-left: 0;
+        max-width: calc(152 * var(--u));
+    }
+    body.with-ram #reg_panel { grid-column: 3; grid-row: 1; }
+    body.with-ram #alu_panel { grid-column: 3; grid-row: 2; }
+    body.with-ram #dp_left {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        align-self: stretch;
+        margin-top: 0;
+    }
+    body.with-ram #ram_panel {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
+    body.with-ram #ram_cells {
+        flex: 1 1 auto;
+        justify-content: space-between;
+        gap: 0;
+        padding-right: calc(4 * var(--u));
+        padding-top: calc(0.4 * var(--u));
+    }
+    .ram-row { gap: calc(0.6 * var(--u)); }
+    .ram-row > label { font-size: calc(1.7 * var(--u)); }
+    .ram-row > .form-control {
+        flex: 0 0 calc(11 * var(--u));
+        font-size: calc(1.75 * var(--u));
+        padding: calc(0.1 * var(--u)) calc(0.6 * var(--u));
+        border-radius: calc(0.5 * var(--u));
+    }
+    .sw-label { font-size: calc(1.5 * var(--u)); }
+    #dp_message {
+        display: inline-block;
+        min-height: 0;
+        margin: 0 0 0 calc(1.2 * var(--u));
+        font-size: calc(1.9 * var(--u));
+    }
+}
+
+/* cella collegata al bus della memoria */
+.ram-row.connected > .form-control { border-color: #2e9e5b; }
+
+/* separazione tra CPU e RAM */
+.cpu-ram-line {
+    fill: none;
+    stroke: #6c7a96;
+    stroke-width: 2;
+    stroke-dasharray: 9 6;
+}
+.cpu-ram-label {
+    font: bold 13px system-ui, sans-serif;
+    fill: #6c7a96;
+    letter-spacing: 0.05em;
+}
+body:not(.with-ram) .cpu-ram-line,
+body:not(.with-ram) .cpu-ram-label { display: none; }
+
+/* RAM occupata: accesso in corso, molto più lento dei registri */
+#ram_panel.busy {
+    box-shadow: 0 0 0 3px var(--bus-active);
+}
+#ram_panel.busy > legend {
+    color: var(--bus-active);
+}
+.bus.active.slow .bus-line {
+    animation-duration: 2.2s;
+}
+
+@media (min-width: 1000px) {
+    .cpu-ram-label { font-size: calc(1.8 * var(--u)); }
+}
+
+/* ==================================================================
+   Versione "Istruzioni": l'unità di controllo esegue il programma
+   scritto in memoria. Rotelle e interruttori restano visibili ma non
+   si possono toccare: li imposta l'unità di controllo.
+   ================================================================== */
+:root {
+    --cu-bg: #ffe9ec;            /* #ffb3ba della palette, schiarito */
+}
+.only-instr { display: none; }
+body.with-instr .only-instr { display: inline; }
+body.with-instr .only-ram { display: none; }
+.ctrl-group { white-space: nowrap; }
+
+#cu_panel, #MAR_row { display: none; }
+.ram-row.ram-hi { display: none; }
+body.with-instr #cu_panel { display: block; background: var(--cu-bg); }
+body.with-instr #MAR_row { display: flex; }
+body.with-instr .ram-row.ram-hi { display: flex; }
+
+/* nessun comando manuale */
+body.with-instr .dp-dials a,
+body.with-instr .dp-alu-op a,
+body.with-instr #dp_switches .sw,
+body.with-instr .ram-row .sw { pointer-events: none; cursor: default; }
+
+.cu-regs {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+#PC_row { flex: 0 0 32%; }
+#IR_row { flex: 1 1 auto; }
+#PC_row + #IR_row { margin-top: 0; }
+#IR { text-align: left; }
+.cu-status {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 16px;
+    margin-bottom: 6px;
+}
+.cu-status label { font-size: inherit; font-weight: 500; }
+#cu_phase { color: var(--bus-active); }
+
+#MAR_row {
+    justify-content: center;
+    margin-bottom: 6px;
+}
+#MAR_row > label { min-width: 0; }
+#MAR_row > .form-control { flex: 0 0 4.5em; }
+
+.ram-row > .form-control.cell-invalid {
+    border-color: #c0392b;
+    background: #fdecea;
+}
+body.with-instr .ram-row > .form-control { text-align: left; }
+
+/* telefono / tablet: RAM sotto l'ALU, unità di controllo sotto la RAM */
+@media (max-width: 999px) {
+    body.with-instr #ram_panel { display: flex; flex-direction: column; }
+    body.with-instr #MAR_row { order: 2; margin: 6px 0 0; }
+    body.with-instr #cu_panel {
+        order: 2;
+        margin-top: 70px;
+        margin-right: 46px;          /* a destra scende il filo dalla memoria all'IR */
+        display: flex;
+        flex-direction: column;
+    }
+    /* il bus indirizzi sale da PC e IR: la riga Fase/flag va sotto */
+    body.with-instr .cu-status { order: 2; margin: 6px 0 0; }
+    body.with-instr .ram-row > .form-control { flex-basis: 13em; }
+}
+
+/* computer: unità di controllo sopra la RAM, 32 celle in due colonne */
+@media (min-width: 1000px) {
+    body.with-instr {
+        --u: min(1vh, 0.5vw);
+        --ram-w: calc(56 * var(--u));
+        --field-w: calc(30 * var(--u));
+        --alu-gap: calc(14 * var(--u));
+        --cell-sw-w: calc(3.2 * var(--u));
+        --cell-sw-h: calc(1.7 * var(--u));
+    }
+    body.with-instr #controls input[type="button"] { margin-left: calc(0.6 * var(--u)); }
+    body.with-instr #cu_panel { margin-bottom: calc(4 * var(--u)); }
+    body.with-instr #datapath { max-width: calc(188 * var(--u)); }
+    body.with-instr #ram_panel > legend { margin-left: calc(1.5 * var(--u)); }   /* il bus indirizzi scende al centro */
+    body.with-instr #cu_panel .dp-field > label { font-size: calc(2.2 * var(--u)); }
+    body.with-instr #cu_panel .form-control { font-size: calc(2.3 * var(--u)); }
+    body.with-instr .cu-status { font-size: calc(1.8 * var(--u)); margin-bottom: calc(0.6 * var(--u)); }
+    body.with-instr #MAR_row { margin-bottom: calc(0.6 * var(--u)); }
+    body.with-instr #MAR_row > label,
+    body.with-instr #MAR_row > .form-control { font-size: calc(1.8 * var(--u)); }
+    body.with-instr #ram_cells {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(16, auto);
+        grid-template-columns: 1fr 1fr;
+        column-gap: calc(4.5 * var(--u));
+        align-content: space-between;
+        padding-right: calc(3.5 * var(--u));
+        padding-bottom: calc(1.6 * var(--u));
+    }
+    body.with-instr .ram-row > label { font-size: calc(1.5 * var(--u)); }
+    body.with-instr .ram-row > .form-control {
+        flex: 0 0 calc(14.5 * var(--u));
+        font-size: calc(1.5 * var(--u));
+        padding-left: calc(0.4 * var(--u));
+        padding-right: calc(0.4 * var(--u));
+    }
+}
+
+/* durante l'esecuzione del programma non si modificano i valori */
+body.cpu-running #datapath input,
+body.cpu-running #memView { pointer-events: none; }
+
+/* flag più grandi e leggibili */
+.cu-status input[type="checkbox"] { width: 1em; height: 1em; vertical-align: -0.1em; }
